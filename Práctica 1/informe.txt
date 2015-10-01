@@ -1,0 +1,85 @@
+Rafael Alcalde Azpiazu
+Iván Anta Porto
+David Méndez Álvarez
+
+· Introduccución:
+
+El objetivo de esta práctica es la de comparar la complejidad computacional de
+dos algoritmos que resuelven el problema de la suma de la subsecuencia máxima.
+
+Para ello hemos procedido a implementar los algoritmos a partir de un
+pseudocódigo dado en el lenguaje C. Posteriormente hemos verificado el correcto
+funcionamiento de los algoritmos y finalmente procedemos a medir los tiempos de
+ejecución de los algoritmos para entradas de diferente tamaño.
+
+Máquina de medición:
+- SO: Elementary OS 0.3.1 (Freya) 64 bits 3.16.0-49-generic
+- Procesador: Intel® Core™ i7-4510U Quadcore CPU @ 2.00GHz
+- Memoria RAM: 16 GB DDR3
+
+sumaSubMax 1 (Tiempos en microsegundos):
+                               Cota subestimada   Cota ajustada Cota sobrestimada
+              n            t(n)      t(n)/n^1.8        t(n)/n^2      t(n)/n^2.2
+(*)         500         394.354        0.005467        0.001577        0.000455
+           1000        1534.000        0.006107        0.001534        0.000385
+           2000        6204.000        0.007093        0.001551        0.000339
+(-)        4000       26300.000        0.008635        0.001644        0.000313
+(-)        8000      102794.000        0.009692        0.001606        0.000266
+          16000      397909.000        0.010774        0.001554        0.000224
+          32000     1575115.000        0.012247        0.001538        0.000193
+                                                     C = 0.0015
+*: Tiempo promedio de 1000 ejecuciones del algoritmo
+-: Mediciones anómalas
+
+Tabla 1: Estudio de la complejidad del primer algoritmo dado.
+
+· Discusión: Se han detectado mediciones anómalas en los casos de entradas de
+tamaño 4000 y 8000 que no han sido subsanados por la repetición del experimento.
+
+Se comprueba que para la cota subestimada los valores crecen indefinidamente.
+Análogamente, los valores de la cota sobrestimada tienden a 0 al aproximarse al
+infinito. Además se comprueba que en el caso de la cota ajustada, los valores se
+estabilizan en torno a una constante de 0.0015, por tanto se demuestra que la
+complejidad de esta función se puede aproximar O(n²)
+
+sumaSubMax 2 (Tiempos en microsegundos)
+                               Cota subestimada   Cota ajustada Cota sobrestimada
+              n            t(n)      t(n)/n^0.8          t(n)/n      t(n)/n^1.2
+(*) (-)     500           2.324        0.016109        0.004648        0.001341
+(*)        1000           2.929        0.011661        0.002929        0.000736
+(*) (-)    2000           9.355        0.021390        0.004678        0.001023
+(*) (-)    4000          15.938        0.020931        0.003985        0.000759
+(*) (-)    8000          28.511        0.021505        0.003564        0.000591
+(*) (-)   16000          51.412        0.022272        0.003213        0.000464
+(*)       32000          98.472        0.024502        0.003077        0.000386
+(*) (-)   64000         229.384        0.032781        0.003584        0.000392
+(*)      128000         355.168        0.029152        0.002775        0.000264
+         256000         710.000        0.033471        0.002773        0.000230
+         512000        1417.000        0.038367        0.002768        0.000200
+        1024000        2825.000        0.043932        0.002759        0.000173
+        2048000        5630.000        0.050286        0.002749        0.000150
+                                                    C = 0.00275
+*: Tiempo promedio de 1000 ejecuciones del algoritmo
+-: Mediciones anómalas
+
+Tabla 2: Estudio de la complejidad del segundo algoritmo dado.
+
+· Discusión: Se han detectado mediciones anómalas en los casos de entradas de
+tamaño 500 y 64000 que no han sido subsanados por la repetición del experimento,
+con excepciones en la entrada de tamaño 1000 y 32000, así como unos tiempos muy
+bajos en las entradas de tamaño 500 o 128000, que han arrojado un tiempo
+promedio.
+
+Se comprueba que para la cota subestimada los valores crecen indefinidamente.
+Análogamente, los valores de la cota sobrestimada tienden a 0 al aproximarse al
+infinito. Además se comprueba que en el caso de la cota ajustada, los valores se
+estabilizan en torno a una constante de 0.00275, por tanto se demuestra que la
+complejidad de esta función se puede aproximar O(n)
+
+· Conclusión: Después de hacer las mediciones concluimos que el segundo 
+algoritmo es mucho más eficiente que el primero. No obstante llegar a esta
+conclusión no ha sido fácil debido a la cantidad de mediciones anómalas que se
+producían, entre las que se incluyen mediciones de tiempos negativos por tareas
+de mantenimiento del sistema operativo, y los tiempos excesivamente bajos del
+segundo algoritmo, por lo que decidimos ampliar la tabla para asegurarnos de que
+la cota ajustada era la correcta.
