@@ -86,7 +86,7 @@ void ord_shell( int v[], int n ) {
       incremento = incremento/2;
       for(i = incremento; i < n ; i++) {
          tmp = v[i]; j = i; seguir = 1;
-         while (((j-incremento) >= 0) && seguir) {
+         while (((j-incremento) > 0) && seguir) {
             if(tmp < v[j-incremento]) {
                v[j] = v[j-incremento];
                j = j-incremento;
@@ -95,20 +95,6 @@ void ord_shell( int v[], int n ) {
          v[j] = tmp;
       }
    } while (incremento > 1);
-}
-
-void ord_ins (int v[], int n) {
-   int i, j, x;
-
-   for (i = 1; i < n; i++) {
-      x = v[i];
-      j = i - 1;
-      while ((j > -1) && (v[j] > x)) {
-         v[j + 1] = v[j];
-         j--;
-      }
-      v[j + 1] = x;
-   }
 }
 
 double tiempo_promedio(int v[], int n,void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n)) {
@@ -195,7 +181,7 @@ void test (void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n),int
 
 void testear(){
    int n = 10;   
-
+/*
    printf("\n+++Test de Ordenación por insercion con vector ordenado ascendentemente \n \n");
    test(&ord_ins,&ascendente,n);
 
@@ -204,7 +190,7 @@ void testear(){
 
    printf("\n+++Test de Ordenación por insercion con el vector desordenado \n \n");
    test(&ord_ins,&aleatorio,n);
-
+*/
    printf("\n+++Test de Ordenación de shell con vector ordenado ascendentemente \n \n");
    test(&ord_shell,&ascendente,n);
 
@@ -216,7 +202,7 @@ void testear(){
 }
 
 void mediciones(){
-
+/*
    printf("Ordenación por insercion con vector ordenado ascendentemente \n \n");
    printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n^1.8", "t(n)/n^2","t(n)/n^2.2");
    medir_tiempos(&ord_ins,&ascendente,1.8,2.0,2.2);
@@ -228,7 +214,7 @@ void mediciones(){
    printf("Ordenación por insercion con el vector desordenado \n \n");
    printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n^1.8", "t(n)/n^2","t(n)/n^2.2");
    medir_tiempos(&ord_ins,&aleatorio,1.8,2.0,2.2);
-
+*/
    printf("Ordenación de shell con vector ordenado ascendentemente \n \n");
    printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n^1.0", "t(n)/n^1.25","t(n)/n^1.5");
    medir_tiempos(&ord_shell,&ascendente,1.0,1.25,1.5);
