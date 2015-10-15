@@ -1,7 +1,24 @@
+/*
+ * Práctica 2 - Algoritmos de Ordenación
+ *
+ * Autores
+ *
+ * -Rafael Alcalde Azpiazu
+ * -Iván Anta Porto
+ * -David Méndez Álvarez
+ *
+ * Fecha:
+ *
+ * Para esta práctica se van a implementar, validar y utilizar dos algoritmos de ordenación. Concretamente ordenación por inserción y ordenación shell.
+ *
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
 #include <math.h>
+
+#define K = 1000 //Número de ejecuciones para el caso de tiempos menores a 500 microsegundos
 
 //Definición de cabeceras
 //Algoritmos implementados:
@@ -15,6 +32,7 @@ void testear();
 //Funciones para realizar la medición de tiempos
 void medir_tiempos(void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n),float subestimada,float ajustada, float sobreestimada);
 void mediciones();
+
 //Funciones de inicialización de vectores
 void aleatorio(int v [], int n);
 void ascendente(int v [], int n);
@@ -33,18 +51,21 @@ void inicializar_semilla() {
    srand(time(NULL));
 }
 
-void aleatorio(int v [], int n) {/* se generan números pseudo aleatorio entre -n y +n */
+//Se generan números pseudo aleatorios entre -n y +n
+void aleatorio(int v [], int n) {
    int i, m=2*n+1;
    for (i=0; i < n; i++)
       v[i] = (rand() % m) - n;
 }
 
+//Se inicializa el vector ascendentemente
 void ascendente(int v [], int n) {
    int i;
    for (i=0; i < n; i++)
       v[i] = i;
 }
 
+//Se inicializa el vector descendentemente
 void descendente(int v [], int n){
    int i,j = (n-1);
    for (i=0; i < n; i++)
@@ -52,18 +73,21 @@ void descendente(int v [], int n){
       
 }
 
+//Función que comprueba si un vector está ordenado
 int esta_ordenado(int v[],int n){
    int i;
-   for (i=0;i<(n-1);i++){
-      if(v[i]>v[(i+1)]){
-         return 0;
+
+   for (i=0;i<(n-1);i++){ //Se recorre el vector
+      if(v[i]>v[(i+1)]){ //Si el siguiente elemento es menor que el actual
+         return 0; //El vector no está ordenado
       }
    }
-   return 1;
+   return 1;//Si no, el vector está ordenado
 }
-// Lista los vectores
+// Función que muestra todo el contenido de un vector
 void listar_vector( int v[], int n ) {
 	int i;
+
 	printf("[ ");
 	for (i = 0; i < n; ++i) {
 		printf("%2d ", v[i]);
@@ -78,6 +102,7 @@ double microsegundos() {
    return (t.tv_usec + t.tv_sec * 1000000.0);
 }
 
+// Algoritmo de ordenación shell
 void ord_shell( int v[], int n ) {
    int incremento = n;
    int i, tmp, j, seguir;
@@ -97,6 +122,7 @@ void ord_shell( int v[], int n ) {
    } while (incremento > 1);
 }
 
+//Algoritmo de ordenación por inserción
 void ord_ins (int v[], int n) {
    int i, j, x;
 
@@ -111,35 +137,43 @@ void ord_ins (int v[], int n) {
    }
 }
 
+// Función que calcula el tiempo de un algoritmo mediante el promedio de K ejecuciones
 double tiempo_promedio(int v[], int n,void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n)) {
    double t_inicial, t_final, t1_total, t2_total;
    int i;
 
    t_inicial = microsegundos();
-   for (i = 0; i<1000; ++i) {
+   for (i = 0; i< K; ++i) { //Se inicializa el vector y se ejecuta el algoritmo K veces
       inicializar(v, n);
       ordenar(v, n);
    }
+
    t_final = microsegundos();
-   t1_total = t_final-t_inicial;
-   t_inicial = microsegundos();
-   for (i = 0; i<1000; ++i) {
+   t1_total = t_final-t_inicial;//Se obtiene el tiempo de inicialización de vector y de ejecución del algoritmo
+
+   t_inicial = microsegundos();   
+   for (i = 0; i< K; ++i) { // se inicializa K veces el vector
       inicializar(v, n);
    }
    t_final = microsegundos();
-   t2_total = t_final-t_inicial;
-   return (t1_total-t2_total)/1000;
+   t2_total = t_final-t_inicial; //se obtiene el tiempo de inicialización del vector
+
+   return (t1_total-t2_total)/K; //Se obtiene el tiempo restando al tiempo de inicialización y ejecución el tiempo de inicialización, y dividiendo este resultado por K
 }
 
+// Función que imprime por pantalla la tabla de tiempos
 void mostrar_tiempo(int n, double t, int es_promedio,float subestimada,float ajustada, float sobreestimada) {
-   if (es_promedio) {
-      printf("(*)%12d %15.3f %15.6f %15.6f %15.6f\n", n, t, t/pow((double) n, subestimada), t/pow((double) n, ajustada), t/pow((double) n, sobreestimada));
-   } else {
-      printf("%15d %15.3f %15.6f %15.6f %15.6f\n", n, t, t/pow((double) n, subestimada), t/pow((double) n, ajustada), t/pow((double) n, sobreestimada));
+
+   if (es_promedio) {//Si es promedio se muestra un asterisco
+      printf("(*)");
+   } else {// Si no es promedio no se muestra
+      printf("   ");
    }
+   //Se imprime la línea de tiempos correspondiente
+   printf("%12d %15.3f %15.6f %15.6f %15.6f\n", n, t, t/pow((double) n, subestimada), t/pow((double) n, ajustada), t/pow((double) n, sobreestimada));
 }
 
-
+//Función que se encarga de medir los tiempos
 void medir_tiempos(void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n),float subestimada,float ajustada, float sobreestimada){
    double t_inicio, t_fin, t_total;
    int n = 500;
@@ -147,8 +181,6 @@ void medir_tiempos(void (*ordenar)(int v[],int n),void (*inicializar)(int v[],in
    int promedio = 0;
    int v[32000];
 
-   // Vamos a determinar los tiempos de los vectores aleatorios de tamaño n unas
-   // 7 veces
    
    for (i = 0; i<7; ++i) {
       // Inicializamos el vector
@@ -163,14 +195,17 @@ void medir_tiempos(void (*ordenar)(int v[],int n),void (*inicializar)(int v[],in
          promedio = 1;
          t_total = tiempo_promedio(v, n,ordenar,inicializar);
       }
+      //Se muestran los tiempos
       mostrar_tiempo(n, t_total, promedio,subestimada,ajustada,sobreestimada);
+      //Se resetea la variable de promedios
       promedio = 0;
+      // Se duplica el tamaño del vector
       n = n*2;
    }
-   printf("*: Tiempo promedio de 1000 ejecuciones del algoritmo\n\n");
+   printf("*: Tiempo promedio de %d ejecuciones del algoritmo\n\n",K);
 }
 
-
+// Función para testear los algoritmos
 void test (void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n),int n){
    int v[n];
    
@@ -191,8 +226,7 @@ void test (void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n),int
    }
 }
 
-/*Los algoritmos deben superar 3 casos de entrada distinta, que esté ordenada ascendentemente, descendentemente y que este desordenada */
-
+//Se testean los algoritmos en 3 casos de entrada: que el vector ya esté ordenado, que esté ordenado inversamente y que esté desordenado
 void testear(){
    int n = 10;   
 
@@ -215,6 +249,7 @@ void testear(){
    test(&ord_shell,&aleatorio,n);
 }
 
+//Función que sirve para realizar la medición de los tiempos de los algoritmos en todos los casos
 void mediciones(){
 
    printf("Ordenación por insercion con vector ordenado ascendentemente \n \n");
@@ -242,20 +277,25 @@ void mediciones(){
    medir_tiempos(&ord_shell,&aleatorio,1.0,1.25,1.5);
 }
 
+// Función principal
 void main(){
    int i;
    
    printf("\n\n\n");
+
    //Se inicializa la semilla para permitir la generación pseudoaleatoria de valores
    inicializar_semilla();
 
    printf("TEST DE LOS ALGORITMOS\n\n\n");
 
+   //Se validan los algoritmos
    testear();
 
    printf("\n\n\n");
    printf("MEDICION DE TIEMPOS\n\n\n");
+   //Se realizan todas las mediciones 4 veces para intentar evitar mediciones anómalas en la medida de lo posible
    for(i = 0;i<4;i++){
+      //Se miden los tiempos
       mediciones();
    }
 }
