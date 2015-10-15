@@ -218,8 +218,8 @@ void testear(){
 void mediciones(){
 
    printf("Ordenación por insercion con vector ordenado ascendentemente \n \n");
-   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n^1.8", "t(n)/n^2","t(n)/n^2.2");
-   medir_tiempos(&ord_ins,&ascendente,1.8,2.0,2.2);
+   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n^0.8", "t(n)/n","t(n)/n^1.2");
+   medir_tiempos(&ord_ins,&ascendente,0.8,1.0,1.2);
 
    printf("Ordenación por insercion con vector ordenado descendentemente \n \n");
    printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n^1.8", "t(n)/n^2","t(n)/n^2.2");
@@ -230,15 +230,15 @@ void mediciones(){
    medir_tiempos(&ord_ins,&aleatorio,1.8,2.0,2.2);
 
    printf("Ordenación de shell con vector ordenado ascendentemente \n \n");
-   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n^1.0", "t(n)/n^1.25","t(n)/n^1.5");
-   medir_tiempos(&ord_shell,&ascendente,1.0,1.25,1.5);
+   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n", "t(n)/n^1.16","t(n)/n^1.32");
+   medir_tiempos(&ord_shell,&ascendente,1.0,1.16,1.32);
 
    printf("Ordenación de shell con vector ordenado descendentemente \n \n");
-   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n^1.0", "t(n)/n^1.25","t(n)/n^1.5");
-   medir_tiempos(&ord_shell,&descendente,1.0,1.25,1.5);
+   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n", "t(n)/n^1.16","t(n)/n^1.32");
+   medir_tiempos(&ord_shell,&descendente,1.0,1.16,1.32);
 
    printf("Ordenación de shell con el vector desordenado \n \n");
-   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n^1.0", "t(n)/n^1.25","t(n)/n^1.5");
+   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n", "t(n)/n^1.25","t(n)/n^1.5");
    medir_tiempos(&ord_shell,&aleatorio,1.0,1.25,1.5);
 }
 
