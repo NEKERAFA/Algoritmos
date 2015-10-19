@@ -18,7 +18,7 @@
 #include <sys/time.h>
 #include <math.h>
 
-#define K = 1000 //Número de ejecuciones para el caso de tiempos menores a 500 microsegundos
+#define K 1000  //Número de ejecuciones para el caso de tiempos menores a 500 microsegundos
 
 //Definición de cabeceras
 //Algoritmos implementados:
@@ -30,7 +30,7 @@ void test (void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n),int
 void testear();
 
 //Funciones para realizar la medición de tiempos
-void medir_tiempos(void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n),float subestimada,float ajustada, float sobreestimada);
+void medir_tiempos(void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n),int selector[],float power[]);
 void mediciones();
 
 //Funciones de inicialización de vectores
@@ -44,9 +44,12 @@ int esta_ordenado(int v[],int n);
 void listar_vector( int v[], int n );
 double microsegundos();
 double tiempo_promedio(int v[], int n,void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n));
-void mostrar_tiempo(int n, double t, int es_promedio,float subestimada,float ajustada, float sobreestimada);
+void mostrar_tiempo(int n, double t, int es_promedio,double subestimada,double ajustada, double sobreestimada);
+double divisor(int seleccion, int n, float power);
 
-//Implementación de las funciones:
+/*Implementación de las funciones:*/
+
+//Función que inicializa la semilla de generación de números pseudo aleatorios
 void inicializar_semilla() {
    srand(time(NULL));
 }
@@ -63,6 +66,31 @@ void ascendente(int v [], int n) {
    int i;
    for (i=0; i < n; i++)
       v[i] = i;
+}
+
+//Función que calcula el divisor en el cálculo de tiempos
+double divisor(int seleccion, int n, float power){
+
+   switch(seleccion){
+      case 0 : 
+         1;
+         break;
+      case 1 : 
+         log(n);
+         break;
+      case 2 :
+         n;
+         break;
+      case 3 :
+         n * log (n);
+         break;
+      case 4 :
+         pow (n,power);
+         break;
+      case 5 :
+         pow(n,2)*log(n);
+         break;
+   }
 }
 
 //Se inicializa el vector descendentemente
@@ -162,7 +190,7 @@ double tiempo_promedio(int v[], int n,void (*ordenar)(int v[],int n),void (*inic
 }
 
 // Función que imprime por pantalla la tabla de tiempos
-void mostrar_tiempo(int n, double t, int es_promedio,float subestimada,float ajustada, float sobreestimada) {
+void mostrar_tiempo(int n, double t, int es_promedio,double subestimada,double ajustada, double sobreestimada) {
 
    if (es_promedio) {//Si es promedio se muestra un asterisco
       printf("(*)");
@@ -170,11 +198,11 @@ void mostrar_tiempo(int n, double t, int es_promedio,float subestimada,float aju
       printf("   ");
    }
    //Se imprime la línea de tiempos correspondiente
-   printf("%12d %15.3f %15.6f %15.6f %15.6f\n", n, t, t/pow((double) n, subestimada), t/pow((double) n, ajustada), t/pow((double) n, sobreestimada));
+   printf("%12d %15.3f %15.6f %15.6f %15.6f\n", n, t, t/ subestimada, t/ ajustada, t/ sobreestimada);
 }
 
 //Función que se encarga de medir los tiempos
-void medir_tiempos(void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n),float subestimada,float ajustada, float sobreestimada){
+void medir_tiempos(void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n),int selector[],float power[]){
    double t_inicio, t_fin, t_total;
    int n = 500;
    int i;
@@ -196,7 +224,7 @@ void medir_tiempos(void (*ordenar)(int v[],int n),void (*inicializar)(int v[],in
          t_total = tiempo_promedio(v, n,ordenar,inicializar);
       }
       //Se muestran los tiempos
-      mostrar_tiempo(n, t_total, promedio,subestimada,ajustada,sobreestimada);
+      mostrar_tiempo(n, t_total, promedio,divisor(selector[0],n,power[0]),divisor(selector[1],n,power[1]),divisor(selector[2],n,power[2]));
       //Se resetea la variable de promedios
       promedio = 0;
       // Se duplica el tamaño del vector
@@ -251,30 +279,44 @@ void testear(){
 
 //Función que sirve para realizar la medición de los tiempos de los algoritmos en todos los casos
 void mediciones(){
+   int selector[3];
+   float power[3];
 
    printf("Ordenación por insercion con vector ordenado ascendentemente \n \n");
+   selector[0]=4;selector[1]=2;selector[2]=4;
+   power[0]=0.8,power[1]=0,power[2]=1.2;
    printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n^0.8", "t(n)/n","t(n)/n^1.2");
-   medir_tiempos(&ord_ins,&ascendente,0.8,1.0,1.2);
+   medir_tiempos(&ord_ins,&ascendente,selector,power);
 
    printf("Ordenación por insercion con vector ordenado descendentemente \n \n");
+   selector[0]=4;selector[1]=2;selector[2]=4;
+   power[0]=0.8,power[1]=0,power[2]=1.2;
    printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n^1.8", "t(n)/n^2","t(n)/n^2.2");
-   medir_tiempos(&ord_ins,&descendente,1.8,2.0,2.2);
+   medir_tiempos(&ord_ins,&descendente,selector,power);
 
    printf("Ordenación por insercion con el vector desordenado \n \n");
+   selector[0]=4;selector[1]=2;selector[2]=4;
+   power[0]=0.8,power[1]=0,power[2]=1.2;
    printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n^1.8", "t(n)/n^2","t(n)/n^2.2");
-   medir_tiempos(&ord_ins,&aleatorio,1.8,2.0,2.2);
+   medir_tiempos(&ord_ins,&aleatorio,selector,power);
 
    printf("Ordenación de shell con vector ordenado ascendentemente \n \n");
+   selector[0]=4;selector[1]=2;selector[2]=4;
+   power[0]=0.8,power[1]=0,power[2]=1.2;
    printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n", "t(n)/n^1.16","t(n)/n^1.32");
-   medir_tiempos(&ord_shell,&ascendente,1.0,1.16,1.32);
+   medir_tiempos(&ord_shell,&ascendente,selector,power);
 
    printf("Ordenación de shell con vector ordenado descendentemente \n \n");
+   selector[0]=4;selector[1]=2;selector[2]=4;
+   power[0]=0.8,power[1]=0,power[2]=1.2;
    printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n", "t(n)/n^1.16","t(n)/n^1.32");
-   medir_tiempos(&ord_shell,&descendente,1.0,1.16,1.32);
+   medir_tiempos(&ord_shell,&descendente,selector,power);
 
    printf("Ordenación de shell con el vector desordenado \n \n");
+   selector[0]=4;selector[1]=2;selector[2]=4;
+   power[0]=0.8,power[1]=0,power[2]=1.2;
    printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n", "t(n)/n^1.25","t(n)/n^1.5");
-   medir_tiempos(&ord_shell,&aleatorio,1.0,1.25,1.5);
+   medir_tiempos(&ord_shell,&aleatorio,selector,power);
 }
 
 // Función principal
