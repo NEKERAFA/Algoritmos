@@ -1,0 +1,153 @@
+
+  Práctica 2 - Algoritmos de ordenación
+  20/10/2015
+
+  Autores:
+  - Rafael Alcalde Azpiazu
+  - Iván Anta Porto
+  - David Méndez Álvarez
+
+--------------------------------------------------------------------------------
+
+ INTRODUCCIÓN:
+
+  El objetivo de esta práctica es comparar la complejidad computacional de dos 
+  algoritmos de ordenación (ordenación por inserción y ordenación shell)
+  aplicados a vectores de números enteros.
+
+  En primer lugar, hemos implementado en lenguaje C ambos algoritmos. Después 
+  de verificar que funcionaran de manera correcta, hemos medido los tiempos de 
+  ejecución (en microsegundos) de los algoritmos sobre tres tipos diferentes de 
+  vectores: pseudoaletorios, ordenados de manera ascendente y ordenados 
+  descendentemente; de esta manera, hemos podido calcular empíricamente la 
+  complejidad de cada algoritmo y analizar su comportamiento.
+
+  Máquina de medición:
+  - SO: Ubuntu 14.04.3 LTS (Trusty Tahr) 64 bits
+  - Procesador: Intel Core i3-3227U x64 @ 1.90 GHz
+  - Memoria RAM: 4 GB
+
+--------------------------------------------------------------------------------
+
+ ORDENACIÓN POR INSERCIÓN (tiempos en microsegundos):
+
+  Con vector ordenado ascendentemente 
+ 
+              n            t(n)    t(n)/(n^0.8)          t(n)/n      t(n)/n^1.2
+(*)         500           3.368      0.02334512      0.00673600      0.00194360
+(*)        1000           6.838      0.02722257      0.00683800      0.00171763
+(*)        2000          13.658      0.03122936      0.00682900      0.00149331
+(*)        4000          27.800      0.03650873      0.00695000      0.00132304
+(*)        8000          55.061      0.04153097      0.00688262      0.00114061
+(*)       16000         111.156      0.04815450      0.00694725      0.00100228
+(*)       32000         221.237      0.05504752      0.00691366      0.00086832
+                                                 C = 0.0069
+*: Tiempo promedio de 1000 ejecuciones del algoritmo
+-: Mediciones anómalas
+
+  Con vector ordenado descendentemente 
+
+              n            t(n)      t(n)/n^1.8        t(n)/n^2      t(n)/n^2.2
+            500         606.000      0.00840092      0.00242400      0.00069942
+           1000        2407.000      0.00958244      0.00240700      0.00060461
+           2000        9612.000      0.01098904      0.00240300      0.00052547
+           4000       38609.000      0.01267596      0.00241306      0.00045936
+           8000      156837.000      0.01478723      0.00245058      0.00040612
+          16000      624678.000      0.01691377      0.00244015      0.00035204
+          32000     2519976.000      0.01959416      0.00246091      0.00030908
+                                                 C = 0.00245
+*: Tiempo promedio de 1000 ejecuciones del algoritmo
+-: Mediciones anómalas
+
+  Con el vector desordenado
+
+              n            t(n)      t(n)/n^1.8        t(n)/n^2      t(n)/n^2.2
+(*)         500         311.393      0.00431681      0.00124557      0.00035940
+           1000        1239.000      0.00493255      0.00123900      0.00031122
+           2000        4886.000      0.00558598      0.00122150      0.00026711
+           4000       19662.000      0.00645535      0.00122887      0.00023394
+           8000       77470.000      0.00730419      0.00121047      0.00020060
+          16000      308157.000      0.00834365      0.00120374      0.00017366
+          32000     1234908.000      0.00960207      0.00120596      0.00015146
+                                                 C = 0.00120
+*: Tiempo promedio de 1000 ejecuciones del algoritmo
+-: Mediciones anómalas
+
+
+  DISCUSIÓN:
+
+  En las tablas se puede observar que los valores crecen de manera infinita 
+  para la cota subestimada, al mismo tiempo que para la cota sobrestimada los 
+  valores tienden a cero según va aumentando el tamaño del vector. En lo que se 
+  refiere a la cota ajustada, los valores se estabilizan en torno a una 
+  constante, quedando demostrado que la complejidad de este algoritmo, tanto en 
+  el peor caso como en el caso medio, se aproxima a O(n²); en el mejor caso, 
+  con el vector inicialmente ordenado, la complejidad es O(n).
+
+--------------------------------------------------------------------------------
+
+ ORDENACIÓN SHELL (tiempos en microsegundos):
+ 
+  Con vector ordenado ascendentemente 
+ 
+              n            t(n)          t(n)/n t(n)/(n*log(n))        t(n)/n^2
+(*)         500          30.007      0.06001400      0.00965692      0.00012003
+(*)        1000          69.368      0.06936800      0.01004205      0.00006937
+(*)        2000         153.902      0.07695100      0.01012393      0.00003848
+(*)        4000         347.436      0.08685900      0.01047245      0.00002171
+           8000         755.000      0.09437500      0.01050105      0.00001180
+          16000        1638.000      0.10237500      0.01057555      0.00000640
+          32000        3551.000      0.11096875      0.01069734      0.00000347
+                                                 C = 0.0106
+*: Tiempo promedio de 1000 ejecuciones del algoritmo
+-: Mediciones anómalas
+
+  Con vector ordenado descendentemente 
+ 
+              n            t(n)          t(n)/n t(n)/(n*log(n))        t(n)/n^2
+(*)         500          44.699      0.08939800      0.01438514      0.00017880
+(*)        1000         100.512      0.10051200      0.01455060      0.00010051
+(*)        2000         225.252      0.11262600      0.01481745      0.00005631
+(*)        4000         499.245      0.12481125      0.01504829      0.00003120
+           8000        1084.000      0.13550000      0.01507700      0.00001694
+          16000        2340.000      0.14625000      0.01510793      0.00000914
+          32000        5055.000      0.15796875      0.01522812      0.00000494
+                                                 C = 0.0152
+*: Tiempo promedio de 1000 ejecuciones del algoritmo
+-: Mediciones anómalas
+
+  Con el vector desordenado 
+ 
+              n            t(n)          t(n)/n     t(n)/n^1.25      t(n)/n^1.5
+(*)         500          95.758      0.19151600      0.04050070      0.00856486
+(*)        1000         223.479      0.22347900      0.03974081      0.00706703
+           2000         524.000      0.26200000      0.03917814      0.00585850
+           4000        1168.000      0.29200000      0.03671706      0.00461693
+           8000        2714.000      0.33925000      0.03587132      0.00379293
+          16000        6131.000      0.38318750      0.03407072      0.00302936
+          32000       13988.000      0.43712500      0.03268272      0.00244360
+                                                 C = 0.033
+*: Tiempo promedio de 1000 ejecuciones del algoritmo
+-: Mediciones anómalas
+
+
+  DISCUSIÓN:
+
+  En las tablas se puede observar que los valores crecen de manera infinita 
+  para la cota subestimada, al mismo tiempo que para la cota sobrestimada los 
+  valores tienden a cero según va aumentando el tamaño del vector. En lo que se 
+  refiere a la cota ajustada, los valores se estabilizan en torno a una 
+  constante, quedando demostrado que la complejidad de este algoritmo se 
+  aproxima a O(n.log n) para el mejor caso y el caso medio; en el peor caso, 
+  la complejidad tiende a O(n^1.25).
+
+--------------------------------------------------------------------------------
+
+ CONCLUSIÓN:
+
+  En las mediciones de tiempo no se han detectado valores anómalos.
+
+  Una vez hechas las mediciones y analizados los resultados, se concluye que el 
+  algoritmo de ordenación shell es más eficiente que el de ordenación por 
+  inserción, salvo en el caso de que el vector este inicialmente ordenado.
+
