@@ -9,7 +9,8 @@
  *
  * Fecha:
  *
- * Para esta práctica se van a implementar, validar y utilizar dos algoritmos de ordenación. Concretamente ordenación por inserción y ordenación shell.
+ * Para esta práctica se van a implementar, validar y utilizar dos algoritmos 
+ * de ordenación. Concretamente ordenación por inserción y ordenación shell.
  *
 */
 
@@ -18,7 +19,16 @@
 #include <sys/time.h>
 #include <math.h>
 
-#define K 1000  //Número de ejecuciones para el caso de tiempos menores a 500 microsegundos
+//Número de ejecuciones para el caso de tiempos menores a 500 microsegundos
+#define K 1000  
+
+// SELECTOR DE DIVISORES PARA LAS COTAS:
+#define CONST 0
+#define LOGN 1
+#define LINEAL 2 
+#define NLOGN 3
+#define NEXP 4
+#define N2LOGN 5
 
 //Definición de cabeceras
 //Algoritmos implementados:
@@ -26,11 +36,13 @@ void ord_ins(int v[], int n);
 void ord_shell(int v[], int n);
 
 //Funciones para testear los algoritmos:
-void test (void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n),int n);
+void test (void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n)
+      ,int n);
 void testear();
 
 //Funciones para realizar la medición de tiempos
-void medir_tiempos(void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n),int selector[],float power[]);
+void medir_tiempos(void (*ordenar)(int v[],int n),void (*inicializar)(int v[],
+      int n),int selector[],float power[]);
 void mediciones();
 
 //Funciones de inicialización de vectores
@@ -43,8 +55,10 @@ void inicializar_semilla();
 int esta_ordenado(int v[],int n);
 void listar_vector( int v[], int n );
 double microsegundos();
-double tiempo_promedio(int v[], int n,void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n));
-void mostrar_tiempo(int n, double t, int es_promedio,double subestimada,double ajustada, double sobreestimada);
+double tiempo_promedio(int v[], int n,void (*ordenar)(int v[],int n),
+   void (*inicializar)(int v[],int n));
+void mostrar_tiempo(int n, double t, int es_promedio,double subestimada
+   ,double ajustada, double sobreestimada);
 double divisor(int seleccion, int n, float power);
 
 /*Implementación de las funciones:*/
@@ -72,24 +86,18 @@ void ascendente(int v [], int n) {
 double divisor(int seleccion, int n, float power){
 
    switch(seleccion){
-      case 0 : 
-         1;
-         break;
-      case 1 : 
-         log(n);
-         break;
-      case 2 :
-         n;
-         break;
-      case 3 :
-         n * log (n);
-         break;
-      case 4 :
-         pow (n,power);
-         break;
-      case 5 :
-         pow(n,2)*log(n);
-         break;
+      case CONST : 
+         return 1;
+      case LOGN : 
+         return log(n);
+      case LINEAL :
+         return n;
+      case NLOGN :
+         return n * log (n);
+      case NEXP :
+         return pow (n,power);
+      case N2LOGN :
+         return pow(n,2)*log(n);
    }
 }
 
@@ -165,32 +173,40 @@ void ord_ins (int v[], int n) {
    }
 }
 
-// Función que calcula el tiempo de un algoritmo mediante el promedio de K ejecuciones
-double tiempo_promedio(int v[], int n,void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n)) {
+// Función que calcula el tiempo de un algoritmo mediante el promedio de K 
+// ejecuciones
+double tiempo_promedio(int v[], int n,void (*ordenar)(int v[],int n),
+       void (*inicializar)(int v[],int n)) {
    double t_inicial, t_final, t1_total, t2_total;
    int i;
 
    t_inicial = microsegundos();
-   for (i = 0; i< K; ++i) { //Se inicializa el vector y se ejecuta el algoritmo K veces
+//Se inicializa el vector y se ejecuta el algoritmo K veces
+   for (i = 0; i< K; ++i) { 
       inicializar(v, n);
       ordenar(v, n);
    }
 
    t_final = microsegundos();
-   t1_total = t_final-t_inicial;//Se obtiene el tiempo de inicialización de vector y de ejecución del algoritmo
+//Se obtiene el tiempo de inicialización de vector y de ejecución del algoritmo
+   t1_total = t_final-t_inicial;
 
-   t_inicial = microsegundos();   
-   for (i = 0; i< K; ++i) { // se inicializa K veces el vector
+   t_inicial = microsegundos();
+// se inicializa K veces el vector   
+   for (i = 0; i< K; ++i) { 
       inicializar(v, n);
    }
    t_final = microsegundos();
-   t2_total = t_final-t_inicial; //se obtiene el tiempo de inicialización del vector
-
-   return (t1_total-t2_total)/K; //Se obtiene el tiempo restando al tiempo de inicialización y ejecución el tiempo de inicialización, y dividiendo este resultado por K
+//se obtiene el tiempo de inicialización del vector
+   t2_total = t_final-t_inicial; 
+//Se obtiene el tiempo restando al tiempo de inicialización y ejecución el 
+//tiempo de inicialización, y dividiendo este resultado por K
+   return (t1_total-t2_total)/K; 
 }
 
 // Función que imprime por pantalla la tabla de tiempos
-void mostrar_tiempo(int n, double t, int es_promedio,double subestimada,double ajustada, double sobreestimada) {
+void mostrar_tiempo(int n, double t, int es_promedio,double subestimada,
+      double ajustada, double sobreestimada) {
 
    if (es_promedio) {//Si es promedio se muestra un asterisco
       printf("(*)");
@@ -202,7 +218,8 @@ void mostrar_tiempo(int n, double t, int es_promedio,double subestimada,double a
 }
 
 //Función que se encarga de medir los tiempos
-void medir_tiempos(void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n),int selector[],float power[]){
+void medir_tiempos(void (*ordenar)(int v[],int n),
+      void (*inicializar)(int v[],int n),int selector[],float power[]){
    double t_inicio, t_fin, t_total;
    int n = 500;
    int i;
@@ -224,7 +241,8 @@ void medir_tiempos(void (*ordenar)(int v[],int n),void (*inicializar)(int v[],in
          t_total = tiempo_promedio(v, n,ordenar,inicializar);
       }
       //Se muestran los tiempos
-      mostrar_tiempo(n, t_total, promedio,divisor(selector[0],n,power[0]),divisor(selector[1],n,power[1]),divisor(selector[2],n,power[2]));
+      mostrar_tiempo(n, t_total, promedio,divisor(selector[0],n,power[0]),
+            divisor(selector[1],n,power[1]),divisor(selector[2],n,power[2]));
       //Se resetea la variable de promedios
       promedio = 0;
       // Se duplica el tamaño del vector
@@ -234,7 +252,8 @@ void medir_tiempos(void (*ordenar)(int v[],int n),void (*inicializar)(int v[],in
 }
 
 // Función para testear los algoritmos
-void test (void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n),int n){
+void test (void (*ordenar)(int v[],int n),void (*inicializar)
+      (int v[],int n),int n){
    int v[n];
    
    printf("·Se inicializa el vector\n");
@@ -254,7 +273,8 @@ void test (void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n),int
    }
 }
 
-//Se testean los algoritmos en 3 casos de entrada: que el vector ya esté ordenado, que esté ordenado inversamente y que esté desordenado
+// Se testean los algoritmos en 3 casos de entrada: que el vector ya esté 
+// ordenado, que esté ordenado inversamente y que esté desordenado
 void testear(){
    int n = 10;   
 
@@ -277,46 +297,75 @@ void testear(){
    test(&ord_shell,&aleatorio,n);
 }
 
-//Función que sirve para realizar la medición de los tiempos de los algoritmos en todos los casos
-void mediciones(){
+void medicion_insercion(){
    int selector[3];
    float power[3];
 
    printf("Ordenación por insercion con vector ordenado ascendentemente \n \n");
-   selector[0]=4;selector[1]=2;selector[2]=4;
-   power[0]=0.8,power[1]=0,power[2]=1.2;
-   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n^0.8", "t(n)/n","t(n)/n^1.2");
+   //Cota subestimada |   Cota ajustada     | Cota sobreestimada
+   selector[0]=NEXP;    selector[1]=LINEAL;    selector[2]=NEXP;
+   power[0]=0.8;         power[1]=0;            power[2]=1.2;
+
+   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/(n^0.8)", "t(n)/n"
+         ,"t(n)/n^1.2");
    medir_tiempos(&ord_ins,&ascendente,selector,power);
 
-   printf("Ordenación por insercion con vector ordenado descendentemente \n \n");
-   selector[0]=4;selector[1]=2;selector[2]=4;
-   power[0]=0.8,power[1]=0,power[2]=1.2;
-   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n^1.8", "t(n)/n^2","t(n)/n^2.2");
+   printf("Ordenación por insercion con vector ordenado descendentemente \n\n");
+   //Cota subestimada |   Cota ajustada     | Cota sobreestimada
+   selector[0]=NEXP;     selector[1]=NEXP;   selector[2]=NEXP;
+   power[0]=1.8;          power[1]=2;           power[2]=2.2;
+
+   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n^1.8", "t(n)/n^2"
+      ,"t(n)/n^2.2");
    medir_tiempos(&ord_ins,&descendente,selector,power);
 
    printf("Ordenación por insercion con el vector desordenado \n \n");
-   selector[0]=4;selector[1]=2;selector[2]=4;
-   power[0]=0.8,power[1]=0,power[2]=1.2;
-   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n^1.8", "t(n)/n^2","t(n)/n^2.2");
+   //Cota subestimada |   Cota ajustada     | Cota sobreestimada
+   selector[0]=NEXP;    selector[1]=NEXP;    selector[2]=NEXP;
+   power[0]=1.8;         power[1]=2;          power[2]=2.2;
+
+   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n^1.8", "t(n)/n^2",
+      "t(n)/n^2.2");
    medir_tiempos(&ord_ins,&aleatorio,selector,power);
 
+}
+
+void medicion_shell(){
+   int selector[3];
+   float power[3];
+
    printf("Ordenación de shell con vector ordenado ascendentemente \n \n");
-   selector[0]=4;selector[1]=2;selector[2]=4;
-   power[0]=0.8,power[1]=0,power[2]=1.2;
-   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n", "t(n)/n^1.16","t(n)/n^1.32");
+   //Cota subestimada |   Cota ajustada     | Cota sobreestimada
+   selector[0]=LINEAL;    selector[1]=NLOGN;    selector[2]=NEXP;
+   power[0]=0;         power[1]=0;           power[2]=2;
+   
+   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n", "t(n)/(n*log(n))"
+      ,"t(n)/n^2");
    medir_tiempos(&ord_shell,&ascendente,selector,power);
 
    printf("Ordenación de shell con vector ordenado descendentemente \n \n");
-   selector[0]=4;selector[1]=2;selector[2]=4;
-   power[0]=0.8,power[1]=0,power[2]=1.2;
-   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n", "t(n)/n^1.16","t(n)/n^1.32");
+   //Cota subestimada |   Cota ajustada     | Cota sobreestimada
+   selector[0]=LINEAL;    selector[1]=NLOGN;    selector[2]=NEXP;
+   power[0]=0;         power[1]=0;           power[2]=2;
+   
+   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n", "t(n)/(n*log(n))"
+      ,"t(n)/n^2");
    medir_tiempos(&ord_shell,&descendente,selector,power);
 
    printf("Ordenación de shell con el vector desordenado \n \n");
-   selector[0]=4;selector[1]=2;selector[2]=4;
-   power[0]=0.8,power[1]=0,power[2]=1.2;
-   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n", "t(n)/n^1.25","t(n)/n^1.5");
+   //Cota subestimada |   Cota ajustada     | Cota sobreestimada   
+   selector[0]=LINEAL;     selector[1]=NEXP;   selector[2]=NEXP;
+   power[0]=0;           power[1]=1.25;           power[2]=1.50;
+   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n", "t(n)/n^1.25",
+      "t(n)/n^1.5");
    medir_tiempos(&ord_shell,&aleatorio,selector,power);
+
+}
+
+//Función que sirve para realizar la medición de los tiempos de los algoritmos en todos los casos
+void mediciones(){
+   medicion_insercion();
+   medicion_shell();
 }
 
 // Función principal
