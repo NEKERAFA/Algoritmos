@@ -34,3 +34,5 @@
 # Archivos y enunciados
 *.pdf
 *.doc
+*~
+*.bak
