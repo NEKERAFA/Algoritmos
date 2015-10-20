@@ -7,7 +7,7 @@
  * -Iván Anta Porto
  * -David Méndez Álvarez
  *
- * Fecha:
+ * Fecha: 20/10/2015
  *
  * Para esta práctica se van a implementar, validar y utilizar dos algoritmos 
  * de ordenación. Concretamente ordenación por inserción y ordenación shell.
@@ -214,7 +214,7 @@ void mostrar_tiempo(int n, double t, int es_promedio,double subestimada,
       printf("   ");
    }
    //Se imprime la línea de tiempos correspondiente
-   printf("%12d %15.3f %15.6f %15.6f %15.6f\n", n, t, t/ subestimada, t/ ajustada, t/ sobreestimada);
+   printf("%12d %15.3f %15.8f %15.8f %15.8f\n", n, t, t/ subestimada, t/ ajustada, t/ sobreestimada);
 }
 
 //Función que se encarga de medir los tiempos
@@ -377,10 +377,10 @@ void main(){
    //Se inicializa la semilla para permitir la generación pseudoaleatoria de valores
    inicializar_semilla();
 
-   printf("TEST DE LOS ALGORITMOS\n\n\n");
+   //printf("TEST DE LOS ALGORITMOS\n\n\n");
 
    //Se validan los algoritmos
-   testear();
+   //testear();
 
    printf("\n\n\n");
    printf("MEDICION DE TIEMPOS\n\n\n");
