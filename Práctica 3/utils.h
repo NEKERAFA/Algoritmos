@@ -23,17 +23,6 @@
 #define N2LOGN 5
 
 //Definición de cabeceras
-
-//Funciones para testear los algoritmos:
-void test (void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n),int n);
-void testear();
-
-//Funciones para realizar la medición de tiempos
-void medir_tiempos(void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n),int selector[],float power[]);
-void mediciones();
-
-
-//otras utilidades
 void inicializar_semilla();
 double microsegundos();
 double tiempo_promedio(int v[], int n,void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n));
