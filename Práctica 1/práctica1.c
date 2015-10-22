@@ -1,5 +1,10 @@
 /*
- * Práctica 1
+ * Práctica 1 - Suma de la subsecuencia máxima
+ *
+ * Autores:
+ * - Rafael Alcalde Azpiazu
+ * - Iván Anta Porto
+ * - David Méndez Álvarez
  *
  * Creado el jue 10 sep 2015 08:48:10 (CEST)
  *
