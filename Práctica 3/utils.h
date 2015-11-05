@@ -10,7 +10,8 @@
  * Fecha:
  *
 */
-
+#ifndef __UTILIDADES_ALG
+#define __UTILIDADES_ALG
 //Número de ejecuciones para el caso de tiempos menores a 500 microsegundos
 #define K 1000  
 
@@ -28,3 +29,5 @@ double microsegundos();
 double tiempo_promedio(int v[], int n,void (*ordenar)(int v[],int n),void (*inicializar)(int v[],int n));
 void mostrar_tiempo(int n, double t, int es_promedio,double subestimada,double ajustada, double sobreestimada);
 double divisor(int seleccion, int n, float power);
+
+#endif
