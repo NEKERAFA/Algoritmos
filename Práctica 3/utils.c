@@ -1,5 +1,5 @@
 /*
- * Práctica 3 - 
+ * Práctica 3 -
  *
  * Autores
  *
@@ -18,37 +18,21 @@
 #include <math.h>
 #include <time.h>
 #include "utils.h"
+#include "abb.h"
 
-/*Implementación de las funciones:*/
+/** Implementación de las funciones *******************************************/
 
-//Función que inicializa la semilla de generación de números pseudo aleatorios
+// Función que inicializa la semilla de generación de números pseudo aleatorios
 void inicializar_semilla() {
    srand(time(NULL));
 }
 
-
-//Función que calcula el divisor en el cálculo de tiempos
-double divisor(int seleccion, int n, float power){
-
-   switch(seleccion){
-      case CONST : 
-         return 1;
-      case LOGN : 
-         return log(n);
-      case LINEAL :
-         return n;
-      case NLOGN :
-         return n * log (n);
-      case NEXP :
-         return pow (n,power);
-      case N2LOGN :
-         return pow(n,2)*log(n);
-   }
-
-   return -1;
+// Se generan números pseudo aleatorios entre -n y +n
+void aleatorio(int v [], int n) {
+   int i, m=2*n+1;
+   for (i=0; i < n; i++)
+      v[i] = (rand() % m) - n;
 }
-
-
 
 // Obtiene la hora del sistema en microsegundos
 double microsegundos() {
@@ -57,47 +41,83 @@ double microsegundos() {
    return (t.tv_usec + t.tv_sec * 1000000.0);
 }
 
-
-// Función que calcula el tiempo de un algoritmo mediante el promedio de K 
-// ejecuciones
-double tiempo_promedio(int v[], int n,void (*ordenar)(int v[],int n),
-       void (*inicializar)(int v[],int n)) {
-   double t_inicial, t_final, t1_total, t2_total;
-   int i;
-
-   t_inicial = microsegundos();
-//Se inicializa el vector y se ejecuta el algoritmo K veces
-   for (i = 0; i< K; ++i) { 
-      inicializar(v, n);
-      ordenar(v, n);
+// Función que calcula el divisor en el cálculo de tiempos
+double divisor(int seleccion, int n, float power){
+   double result;
+   switch(seleccion){
+      case CONST  : result = 1; break;
+      case LOGN   : result = log(n); break;
+      case LINEAL : result = n; break;
+      case NLOGN  : result = n*log(n); break;
+      case NEXP   : result = pow (n,power); break;
+      case N2LOGN : result = pow(n,2)*log(n); break;
    }
-
-   t_final = microsegundos();
-//Se obtiene el tiempo de inicialización de vector y de ejecución del algoritmo
-   t1_total = t_final-t_inicial;
-
-   t_inicial = microsegundos();
-// se inicializa K veces el vector   
-   for (i = 0; i< K; ++i) { 
-      inicializar(v, n);
-   }
-   t_final = microsegundos();
-//se obtiene el tiempo de inicialización del vector
-   t2_total = t_final-t_inicial; 
-//Se obtiene el tiempo restando al tiempo de inicialización y ejecución el 
-//tiempo de inicialización, y dividiendo este resultado por K
-   return (t1_total-t2_total)/K; 
+   return result;
 }
 
 // Función que imprime por pantalla la tabla de tiempos
-void mostrar_tiempo(int n, double t, int es_promedio,double subestimada,
-      double ajustada, double sobreestimada) {
+void mostrar_tiempo(int n, double t, double subestimada, double ajustada,
+   double sobreestimada) {
+   printf("   %12d %15.3f %15.6f %15.6f %15.6f\n", n, t, t/subestimada, t/ajustada,
+   t/sobreestimada);
+}
 
-   if (es_promedio) {//Si es promedio se muestra un asterisco
-      printf("(*)");
-   } else {// Si no es promedio no se muestra
-      printf("   ");
+double ** medir_tiempos(void (*insercion)(arbol a, int v[], int n),
+        void (*busqueda)(arbol a, int v[], int n)) {
+   // Variables de la funcion
+   double t_inicio, t_fin, t1, t2;
+   static double tiempos[13][3];
+   int n, i, j, v[1024000];
+   n = 500; j = 1;
+   arbol a = creararbol();
+
+   for (i = 0; i<12; ++i) {
+      // Inicializamos el vector
+      aleatorio(v, n);
+      // Obtenemos los tiempos de insercion
+      t_inicio = microsegundos(); insercion(a, v, n); t_fin = microsegundos();
+      t1 = t_fin - t_inicio;
+      // Si el tiempo es pequeño se continua al siguiente ciclo
+      if (t1 < 500) n*=2; continue;
+      // Obtenemos los tiempos de busqueda
+      t_inicio = microsegundos(); busqueda(a, v, n); t_fin = microsegundos();
+      t2 = t_fin - t_inicio;
+      // Si el tiempo es pequeño se continua al siguiente ciclo
+      if (t2 < 500)  n*=2; continue;
+      // Se insertan los tiempos en la tabla
+      tiempos[j][0] = n; tiempos[j][1] = t1; tiempos[j][2] = t2;
+      // Se actualizan las variables
+      ++j; n*=2; eliminararbol(a);
    }
-   //Se imprime la línea de tiempos correspondiente
-   printf("%12d %15.3f %15.6f %15.6f %15.6f\n", n, t, t/ subestimada, t/ ajustada, t/ sobreestimada);
+   tiempos[0][0] = --j;;
+   printf("%f\n", tiempos[0][0]);
+   // Se devuelve una tabla de tiempos
+   return tiempos;
+}
+
+// Muestra las mediciones de tiempos de insercion en el arbol
+void medicion_insercion( double v[12][3] ) {
+   int selector[3];
+   float power[3];
+   int i;
+
+   //Cota subestimada |   Cota ajustada     | Cota sobreestimada
+   selector[0]=NEXP;    selector[1]=LINEAL;    selector[2]=NEXP;
+   power[0]=0.8;         power[1]=0;            power[2]=1.2;
+
+   printf("Tiempos en la inserción en el arbol\n\n");
+   printf("%15s %15s %15s %15s %15s\n", "", "", "Cota subestimada",
+          "Cota ajustada", "Cota sobrestimada");
+   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/(n^0.8)", "t(n)/n",
+      "t(n)/n^1.2");
+   for(i = 1; i<v[0][0]; i++) {
+      mostrar_tiempo((int) v[i][0], v[i][1],
+         divisor(selector[0], (int) v[i][0], power[0]),
+         divisor(selector[1], (int) v[i][0], power[1]),
+         divisor(selector[2], (int) v[i][0], power[2]));
+   }
+}
+
+void medicion_busqueda( double v[12][3] ) {
+   printf("Funcion aún no implementada\n");
 }

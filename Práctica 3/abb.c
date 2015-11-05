@@ -42,7 +42,7 @@ arbol eliminararbol(arbol a){
    if (a != NULL){
       if (a->izq != NULL){
          eliminararbol(a->izq);
-      } 
+      }
       if (a->der != NULL){
          eliminararbol(a->der);
       }
@@ -99,6 +99,11 @@ int altura(arbol a) {
    return (1+MAX(altura(a->izq), altura(a->der)));
 }
 
+void vectortotree(arbol a, int v[], int n) {
+   int i;
+   for(i = 0; i<n; i++) insertar(v[i], a);
+}
+
 void testcreararbol(){
    arbol a;
 
@@ -126,7 +131,7 @@ void testesarbolvacio(){
       printf("******** TEST FALLADO ********\n");
    }
 
-   free(b);   
+   free(b);
 }
 
 void testinsertar(){
@@ -140,7 +145,7 @@ void testinsertar(){
    a = insertar(1,a);
    a = insertar(3,a);
 
-   if(a->elem == 2){ 
+   if(a->elem == 2){
       printf(" he insertado el 2\n");
    } else {
       superado = 0;
@@ -148,13 +153,13 @@ void testinsertar(){
    if(a->izq->elem == 1) {
       printf(" he insertado el 1\n");
    } else {
-      superado = 0;  
-   }   
+      superado = 0;
+   }
    if(a->der->elem == 3) {
       printf(" he insertado el 3\n");
    } else{
       superado = 0;
-   }   
+   }
 
    if (superado) {
       printf("Test Superado\n");
@@ -206,7 +211,7 @@ void testhijoizquierdo(){
    a = insertar(1,a);
    a = insertar(3,a);
    hi = hijoizquierdo(a);
-   
+
    if (hi->elem == 1) {
       printf("Test Superado\n");
    } else {
@@ -228,7 +233,7 @@ void testhijoderecho(){
    a = insertar(3,a);
 
    hd = hijoderecho(a);
-   
+
    if (hd->elem == 3) {
       printf("Test Superado\n");
    } else {
@@ -261,7 +266,7 @@ void testbuscar(){
 }
 void testelemento(){
    arbol a;
-   
+
    printf("\nTest elemento\n");
    a = creararbol();
 
@@ -353,4 +358,15 @@ void testear(){
    testeliminararbol();
 
    printf("\n");
+}
+
+void buscarvector(arbol a, int v[], int n) {
+   int i;
+   for(i = 0; i<n; i++) buscar(v[i], a);
+}
+
+void tiempos() {
+   double ** v;
+   v = medir_tiempos(vectortotree, buscarvector);
+   medicion_insercion(v);
 }

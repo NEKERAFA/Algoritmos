@@ -1,5 +1,6 @@
 #ifndef __ABB_ALG
 #define __ABB_ALG
+
 struct nodo {
    int elem;
    int num_repeticiones;
@@ -9,8 +10,8 @@ typedef struct nodo *posicion;
 typedef struct nodo *arbol;
 
 arbol insertar(int e, arbol a);
-arbol creararbol();        
-int esarbolvacio(arbol a); 
+arbol creararbol();
+int esarbolvacio(arbol a);
 posicion buscar(int e, arbol a);
 arbol eliminararbol(arbol a);
 posicion hijoizquierdo(arbol a);
@@ -19,7 +20,8 @@ int elemento(posicion p);
 int numerorepeticiones(posicion p);
 int altura(arbol a);
 void visualizar(arbol a);
-void testear ();
-int tiempos();
+void vectortotree(arbol a, int v[], int n);
+void testear();
+void tiempos();
 
 #endif
