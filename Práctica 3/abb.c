@@ -99,10 +99,9 @@ void testear(){
       }
    }
    if (altura(a)!=2) validacion = 0;
-   //buscar -> falta en un arbol no vacio con elementos que existen y que no
-   //eliminararbol -> falta en un arbol no vacio
-   //hijoizquierdo
-   //hijoderecho
+   if(hijoizquierdo(a)->elem != 1) validacion = 0;
+   if(hijoderecho(a)->elem != 5) validacion = 0;
+   if (eliminararbol(a)!=NULL) validacion = 0;
    if (validacion){
       printf("+++ Test Superado +++");
    }else{
