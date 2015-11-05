@@ -1,9 +1,12 @@
 #include "abb.h"
 #include "utils.h"
 #include <stdio.h>
-#define max(a, b) ((a>b) ? (a) : (b))
+#include <stdlib.h>
 
-static struct nodo *crearnodo(int e) {
+#define MAX(a, b) ((a>b) ? (a) : (b))
+#define MIN(a, b) ((a<b) ? (a) : (b))
+
+static struct nodo  *crearnodo(int e) {
    struct nodo *p = malloc(sizeof(struct nodo));
    if (p == NULL) {
       printf("memoria agotada\n"); exit(EXIT_FAILURE);
@@ -36,23 +39,22 @@ int esarbolvacio(arbol a){
 }
 
 arbol eliminararbol(arbol a){
-   if(a!=NULL){
-      if(a->izq != NULL){
+   if (a != NULL){
+      if (a->izq != NULL){
          eliminararbol(a->izq);
-      }
-      if(a->der !=NULL){
+      } 
+      if (a->der != NULL){
          eliminararbol(a->der);
       }
-      free(a);
-      a=NULL;
    }
-
+   free(a);
+   a = NULL;
    return a;
 }
 
 void visualizar(arbol a){
    if (a!=NULL){
-      printf("( ");
+      printf("(");
       if(a->izq != NULL){
          visualizar(a->izq);
       }
@@ -60,7 +62,7 @@ void visualizar(arbol a){
       if(a->der != NULL){
          visualizar(a->der);
       }
-      printf(" )")
+      printf(")");
    } else {
       printf("()");
    }
@@ -88,54 +90,267 @@ int numerorepeticiones(posicion p) {
 
 posicion buscar(int e, arbol a) {
    if ((a == NULL) || (a->elem == e)) return a;
-   else if (a->elem > e) buscar(e, a->izq);
-   else buscar(e, a->der);
+   else if (a->elem > e) return buscar(e, a->izq);
+   else return buscar(e, a->der);
 }
 
 int altura(arbol a) {
    if (a == NULL) return -1;
-   1+max(altura(a->izq), altura(a->der));
+   return (1+MAX(altura(a->izq), altura(a->der)));
+}
+
+void testcreararbol(){
+   arbol a;
+
+   printf("\nTest creararbol\n");
+
+   a = creararbol();
+   if (a == NULL) {
+      printf("Test Superado\n");
+   } else {
+      printf("******** TEST FALLADO ********\n");
+   }
+}
+
+void testesarbolvacio(){
+   arbol a,b;
+   printf("\nTest esarbolvacio\n");
+
+   a = creararbol();
+   b = creararbol();
+   b = crearnodo(1);
+
+   if (!esarbolvacio(b)&& esarbolvacio(a)) {
+      printf("Test Superado\n");
+   } else {
+      printf("******** TEST FALLADO ********\n");
+   }
+
+   free(b);   
+}
+
+void testinsertar(){
+   arbol a;
+   int superado = 1;
+
+   printf("\nTest insertar\n");
+   a = creararbol();
+   printf("Insercion de 2,1,3\n");
+   a = insertar(2,a);
+   a = insertar(1,a);
+   a = insertar(3,a);
+
+   if(a->elem == 2){ 
+      printf(" he insertado el 2\n");
+   } else {
+      superado = 0;
+   }
+   if(a->izq->elem == 1) {
+      printf(" he insertado el 1\n");
+   } else {
+      superado = 0;  
+   }   
+   if(a->der->elem == 3) {
+      printf(" he insertado el 3\n");
+   } else{
+      superado = 0;
+   }   
+
+   if (superado) {
+      printf("Test Superado\n");
+   } else {
+      printf("******** TEST FALLADO ********\n");
+   }
+
+   free(a->izq);
+   free(a->der);
+   free(a);
+}
+
+void testvisualizar(){
+   arbol a;
+   char * vacia = "()";
+   char * novacia = "(( 1 ) 2 ( 3 ))";
+
+   printf("\nTest visualizar\n");
+
+   a = creararbol();
+   printf("Lista vacia:\n");
+   printf("Resultado esperado : %s\n",vacia);
+   printf("Resultado obtenido :");
+   visualizar(a);
+   printf("\n");
+
+   a = insertar(2,a);
+   a = insertar(1,a);
+   a = insertar(3,a);
+
+   printf("Lista no vacia:\n");
+   printf("Resultado esperado : %s\n",novacia);
+   printf("Resultado obtenido :");
+   visualizar(a);
+   printf("\n");
+
+   free(a->izq);
+   free(a->der);
+   free(a);
+}
+void testhijoizquierdo(){
+   arbol a;
+   posicion hi;
+
+   printf("\nTest hijoizquierdo\n");
+   a = creararbol();
+
+   a = insertar(2,a);
+   a = insertar(1,a);
+   a = insertar(3,a);
+   hi = hijoizquierdo(a);
+   
+   if (hi->elem == 1) {
+      printf("Test Superado\n");
+   } else {
+      printf("******** TEST FALLADO ********\n");
+   }
+
+   free(a->izq);
+   free(a->der);
+   free(a);
+}
+void testhijoderecho(){
+   arbol a;
+   posicion hd;
+   printf("\nTest hijoderecho\n");
+   a = creararbol();
+
+   a = insertar(2,a);
+   a = insertar(1,a);
+   a = insertar(3,a);
+
+   hd = hijoderecho(a);
+   
+   if (hd->elem == 3) {
+      printf("Test Superado\n");
+   } else {
+      printf("******** TEST FALLADO ********\n");
+   }
+
+   free(a->izq);
+   free(a->der);
+   free(a);
+}
+void testbuscar(){
+   arbol a;
+
+   printf("\nTest buscar\n");
+   a = creararbol();
+
+   a = insertar(2,a);
+   a = insertar(1,a);
+   a = insertar(3,a);
+
+   if ((buscar(1,a)!=NULL)&&(buscar(2,a)!=NULL)&&(buscar(3,a)!=NULL)&&((buscar(4,a)==NULL))) {
+      printf("Test Superado\n");
+   } else {
+      printf("******** TEST FALLADO ********\n");
+   }
+
+   free(a->izq);
+   free(a->der);
+   free(a);
+}
+void testelemento(){
+   arbol a;
+   
+   printf("\nTest elemento\n");
+   a = creararbol();
+
+   a = insertar(2,a);
+   a = insertar(1,a);
+   a = insertar(3,a);
+
+   if ((elemento(a)==2)&&(elemento(a->izq)==1)&&(elemento(a->der)==3)) {
+      printf("Test Superado\n");
+   } else {
+      printf("******** TEST FALLADO ********\n");
+   }
+
+   free(a->izq);
+   free(a->der);
+   free(a);
+}
+void testaltura(){
+   arbol a;
+   int i;
+   printf("\nTest altura\n");
+   a = creararbol();
+
+   i = altura(a);
+
+   a = insertar(2,a);
+   a = insertar(1,a);
+   a = insertar(3,a);
+
+   if ((i == -1)&&(altura(a->izq)==0)&&(altura(a)==1)) {
+      printf("Test Superado\n");
+   } else {
+      printf("******** TEST FALLADO ********\n");
+   }
+
+   free(a->izq);
+   free(a->der);
+   free(a);
+}
+void testnumerorepeticiones(){
+   arbol a;
+
+   printf("\nTest numerorepeticiones\n");
+   a = creararbol();
+
+   a = insertar(2,a);
+   a = insertar(1,a);
+   a = insertar(2,a);
+
+   if ((numerorepeticiones(a)==2)&&(numerorepeticiones(a->izq)==1)) {
+      printf("Test Superado\n");
+   } else {
+      printf("******** TEST FALLADO ********\n");
+   }
+
+   free(a->izq);
+   free(a->der);
+   free(a);
+}
+void testeliminararbol(){
+   arbol a;
+   printf("\nTest eliminararbol\n");
+   a = creararbol();
+
+   a = insertar(2,a);
+   a = insertar(1,a);
+   a = insertar(3,a);
+
+   visualizar(a);
+   printf("\n");
+
+   a = eliminararbol(a);
+
+   visualizar(a);
+   printf("\n");
 }
 
 void testear(){
-   int i,validacion = 1;
-   arbol a;
-   posicion p;
+   testcreararbol();
+   testesarbolvacio();
+   testinsertar();
+   testvisualizar();
+   testhijoizquierdo();
+   testhijoderecho();
+   testbuscar();
+   testelemento();
+   testaltura();
+   testnumerorepeticiones();
+   testeliminararbol();
 
-   printf("\n Testeo de las funciones \n");
-   a = creararbol();
-   if (a != NULL) validacion = 0;
-   if (!esarbolvacio(a)) validacion = 0;
-   if (altura(a)!=-1) validacion = 0;
-   if (buscar(1,a)!=NULL) validacion = 0;
-   visualizar (a);
-   if(eliminararbol(a)!=NULL) validacion = 0;
-   printf("Insercion de: 3, 1, 2 , 5, 4, 5 \n");
-   if(insertar(3, a)==NULL) validacion = 0;
-   if(altura(a)!=0)validacion = 0;
-   if(insertar(1, a)==NULL) validacion = 0;
-   if(insertar(2, a)==NULL) validacion = 0;
-   if(insertar(5, a)==NULL) validacion = 0;
-   if(insertar(4, a)==NULL) validacion = 0;
-   if(insertar(5, a)==NULL) validacion = 0;
-   if(esarbolvacio(a)==NULL) validacion = 0;
-   if(buscar(3,a)!=a) validacion = 0
-   visualizar(a);
-   for(i=1;i<7;i++){
-      printf("Busco %d y ",i);
-      if((p=buscar(i,a))==NULL){
-         printf("no encuentro nada");
-      }else{
-         printf("encuentro %d repetido %d veces",elemento(p),numerorepeticiones(p));
-      }
-   }
-   if (altura(a)!=2) validacion = 0;
-   if(hijoizquierdo(a)->elem != 1) validacion = 0;
-   if(hijoderecho(a)->elem != 5) validacion = 0;
-   if (eliminararbol(a)!=NULL) validacion = 0;
-   if (validacion){
-      printf("+++ Test Superado +++");
-   }else{
-      printf("*************Test Fallado*************");
-   }
+   printf("\n");
 }

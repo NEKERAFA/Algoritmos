@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <sys/time.h>
 #include <math.h>
+#include <time.h>
 #include "utils.h"
 
 /*Implementación de las funciones:*/
@@ -43,6 +44,8 @@ double divisor(int seleccion, int n, float power){
       case N2LOGN :
          return pow(n,2)*log(n);
    }
+
+   return -1;
 }
 
 
