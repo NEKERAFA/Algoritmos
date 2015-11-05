@@ -1,6 +1,7 @@
 #include "abb.h"
-#include <stdio.h>
 #include "utils.h"
+#include <stdio.h>
+#define max(a, b) ((a>b) ? (a) : (b))
 
 static struct nodo *crearnodo(int e) {
    struct nodo *p = malloc(sizeof(struct nodo));
@@ -47,7 +48,7 @@ arbol eliminararbol(arbol a){
    }
 
    return a;
-} 
+}
 
 void visualizar(arbol a){
    if (a!=NULL){
@@ -65,6 +66,36 @@ void visualizar(arbol a){
    }
 }
 
+// Precondición: el árbol no es nulo
+posicion hijoizquierdo(arbol a) {
+   return a->izq;
+}
+
+// Precondición: el árbol no es nulo
+posicion hijoderecho(arbol a) {
+   return a->der;
+}
+
+// Precondición: el árbol no es nulo
+int elemento(posicion p) {
+   return p->elem;
+}
+
+// Precondición: el árbol no es nulo
+int numerorepeticiones(posicion p) {
+   return p->num_repeticiones;
+}
+
+posicion buscar(int e, arbol a) {
+   if ((a == NULL) || (a->elem == e)) return a;
+   else if (a->elem > e) buscar(e, a->izq);
+   else buscar(e, a->der);
+}
+
+int altura(arbol a) {
+   if (a == NULL) return -1;
+   1+max(altura(a->izq), altura(a->der));
+}
 
 void testear(){
    int i,validacion = 1;
@@ -106,5 +137,5 @@ void testear(){
       printf("+++ Test Superado +++");
    }else{
       printf("*************Test Fallado*************");
-   }   
+   }
 }
