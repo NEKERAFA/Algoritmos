@@ -99,9 +99,10 @@ int altura(arbol a) {
    return (1+MAX(altura(a->izq), altura(a->der)));
 }
 
-void vectortotree(arbol a, int v[], int n) {
+arbol vectortotree(arbol a, int v[], int n) {
    int i;
-   for(i = 0; i<n; i++) insertar(v[i], a);
+   for(i = 0; i<n; i++) a = insertar(v[i], a);
+   return a;
 }
 
 void testcreararbol(){
@@ -344,6 +345,27 @@ void testeliminararbol(){
    printf("\n");
 }
 
+void testvectortotree() {
+   arbol a;
+   int v[100000];
+   int i;
+
+   printf("\nTest vectortotree\n");
+
+   printf("Vector: ");
+   for (i=0; i<5; i++) {
+      v[i] = (rand() % 10) - 5;
+      printf("%i ", v[i]);
+   }
+   printf("\n");
+
+   a = creararbol();
+   a = vectortotree(a, v, 5);
+   visualizar(a);
+
+   a = eliminararbol(a);
+}
+
 void testear(){
    testcreararbol();
    testesarbolvacio();
@@ -356,6 +378,7 @@ void testear(){
    testaltura();
    testnumerorepeticiones();
    testeliminararbol();
+   testvectortotree();
 
    printf("\n");
 }
@@ -367,6 +390,7 @@ void buscarvector(arbol a, int v[], int n) {
 
 void tiempos() {
    double ** v;
+   printf("%10s %10s %10s\n", "n", "t_ins(n)", "t_bus(n)");
    v = medir_tiempos(vectortotree, buscarvector);
    medicion_insercion(v);
 }

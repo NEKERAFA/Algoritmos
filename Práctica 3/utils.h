@@ -29,7 +29,7 @@
 //Definición de cabeceras
 void inicializar_semilla();
 double microsegundos();
-double ** medir_tiempos(void (*insercion)(arbol a, int v[], int n),
+double ** medir_tiempos(arbol (*insercion)(arbol a, int v[], int n),
    void (*busqueda)(arbol a, int v[], int n));
 void mostrar_tiempo(int n, double t, double subestimada, double ajustada,
    double sobreestimada);

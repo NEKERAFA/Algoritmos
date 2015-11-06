@@ -20,7 +20,7 @@ int elemento(posicion p);
 int numerorepeticiones(posicion p);
 int altura(arbol a);
 void visualizar(arbol a);
-void vectortotree(arbol a, int v[], int n);
+arbol vectortotree(arbol a, int v[], int n);
 void testear();
 void tiempos();
 

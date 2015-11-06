@@ -28,7 +28,7 @@ void inicializar_semilla() {
 }
 
 // Se generan números pseudo aleatorios entre -n y +n
-void aleatorio(int v [], int n) {
+void aleatorio(int v[], int n) {
    int i, m=2*n+1;
    for (i=0; i < n; i++)
       v[i] = (rand() % m) - n;
@@ -62,7 +62,7 @@ void mostrar_tiempo(int n, double t, double subestimada, double ajustada,
    t/sobreestimada);
 }
 
-double ** medir_tiempos(void (*insercion)(arbol a, int v[], int n),
+double** medir_tiempos(arbol (*insercion)(arbol a, int v[], int n),
         void (*busqueda)(arbol a, int v[], int n)) {
    // Variables de la funcion
    double t_inicio, t_fin, t1, t2;
@@ -71,26 +71,27 @@ double ** medir_tiempos(void (*insercion)(arbol a, int v[], int n),
    n = 500; j = 1;
    arbol a = creararbol();
 
-   for (i = 0; i<12; ++i) {
+   for (i = 0; i<5; ++i) {
       // Inicializamos el vector
       aleatorio(v, n);
       // Obtenemos los tiempos de insercion
-      t_inicio = microsegundos(); insercion(a, v, n); t_fin = microsegundos();
+      t_inicio = microsegundos(); a = insercion(a, v, n); t_fin = microsegundos();
       t1 = t_fin - t_inicio;
       // Si el tiempo es pequeño se continua al siguiente ciclo
-      if (t1 < 500) n*=2; continue;
+      // if (t1 < 500) {n*=2; eliminararbol(a); continue;}
       // Obtenemos los tiempos de busqueda
       t_inicio = microsegundos(); busqueda(a, v, n); t_fin = microsegundos();
       t2 = t_fin - t_inicio;
       // Si el tiempo es pequeño se continua al siguiente ciclo
-      if (t2 < 500)  n*=2; continue;
+      // if (t2 < 500)  {n*=2; eliminararbol(a); continue;}
       // Se insertan los tiempos en la tabla
+      printf("%10i %10i %10i\n", n, (int) t1, (int) t2);
       tiempos[j][0] = n; tiempos[j][1] = t1; tiempos[j][2] = t2;
       // Se actualizan las variables
       ++j; n*=2; eliminararbol(a);
    }
    tiempos[0][0] = --j;;
-   printf("%f\n", tiempos[0][0]);
+   printf("%i\n", (int) tiempos[0][0]);
    // Se devuelve una tabla de tiempos
    return tiempos;
 }
