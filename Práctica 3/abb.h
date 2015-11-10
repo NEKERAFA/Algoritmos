@@ -21,6 +21,7 @@ int numerorepeticiones(posicion p);
 int altura(arbol a);
 void visualizar(arbol a);
 arbol vectortotree(arbol a, int v[], int n);
+void buscarvector(arbol a, int v[], int n);
 void testear();
 void tiempos();
 

@@ -46,9 +46,10 @@ arbol eliminararbol(arbol a){
       if (a->der != NULL){
          eliminararbol(a->der);
       }
+
+      free(a);
+      a = NULL;
    }
-   free(a);
-   a = NULL;
    return a;
 }
 
@@ -389,8 +390,9 @@ void buscarvector(arbol a, int v[], int n) {
 }
 
 void tiempos() {
-   double ** v;
+   double v[8][3];
    printf("%10s %10s %10s\n", "n", "t_ins(n)", "t_bus(n)");
-   v = medir_tiempos(vectortotree, buscarvector);
+   medir_tiempos(v);
    medicion_insercion(v);
+   medicion_busqueda(v);
 }
