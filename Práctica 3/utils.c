@@ -7,8 +7,7 @@
  * -Iván Anta Porto
  * -David Méndez Álvarez
  *
- * Fecha:
- *
+ * Fecha: 11/11/2015
  *
 */
 
@@ -58,7 +57,7 @@ double divisor(int seleccion, int n, float power){
 // Función que imprime por pantalla la tabla de tiempos
 void mostrar_tiempo(int n, double t, double subestimada, double ajustada,
    double sobreestimada) {
-   printf("   %12d %15.3f %15.6f %15.6f %15.6f\n", n, t, t/subestimada, t/ajustada,
+   printf("   %7d %15.3f %15.6f %15.6f %15.6f\n", n, t, t/subestimada, t/ajustada,
    t/sobreestimada);
 }
 
@@ -96,7 +95,7 @@ void medir_tiempos(double tiempos[8][3]) {
       ++j; n*=2; a = eliminararbol(a); i++;
    }
    tiempos[0][0] = i;;
-   printf("%d",i);
+   //printf("%d",i);
 }
 
 // Muestra las mediciones de tiempos de insercion en el arbol
@@ -106,14 +105,14 @@ void medicion_insercion( double v[12][3] ) {
    int i;
 
    //Cota subestimada |   Cota ajustada     | Cota sobreestimada
-   selector[0]=NEXP;    selector[1]=LINEAL;    selector[2]=NEXP;
-   power[0]=0.8;         power[1]=0;            power[2]=1.2;
+   selector[0]=LINEAL;    selector[1]=NEXP;    selector[2]=NEXP;
+   power[0]=0;            power[1]=1.25;        power[2]=1.5;
 
-   printf("Tiempos en la inserción en el arbol\n\n");
-   printf("%15s %15s %15s %15s %15s\n", "", "", "Cota subestimada",
+   printf("\n\n Tiempos en la inserción en el arbol\n\n");
+   printf("%10s %15s %15s %15s %15s\n", "", "", "Cota subestimada",
           "Cota ajustada", "Cota sobrestimada");
-   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/(n^0.8)", "t(n)/n",
-      "t(n)/n^1.2");
+   printf("%10s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n", "t(n)/n^1.25",
+      "t(n)/n^1.5");
    for(i = 1; i<v[0][0]; i++) {
       mostrar_tiempo((int) v[i][0], v[i][1],
          divisor(selector[0], (int) v[i][0], power[0]),
@@ -128,14 +127,14 @@ void medicion_busqueda( double v[12][3] ) {
    int i;
 
    //Cota subestimada |   Cota ajustada     | Cota sobreestimada
-   selector[0]=NEXP;    selector[1]=LINEAL;    selector[2]=NEXP;
-   power[0]=0.8;         power[1]=0;            power[2]=1.2;
+   selector[0]=LINEAL;    selector[1]=NEXP;    selector[2]=NEXP;
+   power[0]=0;            power[1]=1.25;        power[2]=1.5;
 
-   printf("Tiempos en la inserción en el arbol\n\n");
-   printf("%15s %15s %15s %15s %15s\n", "", "", "Cota subestimada",
+   printf("\n\n Tiempos en la búsqueda en el arbol\n\n");
+   printf("%10s %15s %15s %15s %15s\n", "", "", "Cota subestimada",
           "Cota ajustada", "Cota sobrestimada");
-   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/(n^0.8)", "t(n)/n",
-      "t(n)/n^1.2");
+   printf("%10s %15s %15s %15s %15s\n", "n", "t(n)", "t(n)/n", "t(n)/n^1.25",
+      "t(n)/n^1.5");
    for(i = 1; i<v[0][0]; i++) {
       mostrar_tiempo((int) v[i][0], v[i][2],
          divisor(selector[0], (int) v[i][0], power[0]),

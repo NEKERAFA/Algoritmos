@@ -1,4 +1,4 @@
-# Makefile del shell
+# Makefile de la práctica 3 de Algoritmos
 
 CC = gcc
 CFLAGS = -g -Wall

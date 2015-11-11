@@ -1,3 +1,16 @@
+/*
+ * Práctica 3 -
+ *
+ * Autores
+ *
+ * -Rafael Alcalde Azpiazu
+ * -Iván Anta Porto
+ * -David Méndez Álvarez
+ *
+ * Fecha: 11/11/2015
+ *
+*/
+
 #include "abb.h"
 #include "utils.h"
 #include <stdio.h>
