@@ -1,0 +1,123 @@
+
+  Práctica 3 - Árboles binarios de búsqueda
+  11/11/2015
+
+  Autores:
+  - Rafael Alcalde Azpiazu
+  - Iván Anta Porto
+  - David Méndez Álvarez
+
+--------------------------------------------------------------------------------
+
+ INTRODUCCIÓN:
+
+  El objetivo de esta práctica es estudiar la complejidad computacional de las 
+  operaciones "insertar" y "buscar" en árboles binarios de búsqueda de números 
+  enteros y con un campo de frecuencia de apariciones.
+
+  A partir de una representación de árboles binarios de búsqueda y la función 
+  "insertar" ya codificada, y siempre en lenguaje C, se han implementado las 
+  operaciones necesarias para crear un árbol, comprobar si un árbol está vacío, 
+  buscar un elemento dentro de un árbol y eliminar un árbol completo; además, se 
+  han programado las funciones que devuelven la posición de un hijo izquierdo o 
+  derecho, el elemento que hay en una determinada posición, el número de 
+  repeticiones del elemento en una posición y la altura del árbol. Por último, 
+  se ha implementado la función "visualizar", que imprime el contenido del 
+  árbol.
+
+  Después de verificar que las operaciones funcionaran de manera correcta 
+  mediante un test, hemos medido los tiempos (en microsegundos) de las funciones 
+  "insertar" y "buscar", tomando como elementos de entrada los números 
+  contenidos en un vector inicializado de manera pseudoaleatoria. De esta 
+  manera, hemos podido calcular empíricamente la complejidad de esta 
+  implementación de los árboles binarios de búsqueda y analizar su 
+  comportamiento.
+
+  No se ha podido aplicar el habitual método de medición de tiempos pequeños 
+  (consistente en hallar el tiempo medio de 1000 mediciones) para las funciones 
+  "insertar" y "buscar", ya que no se puede medir de manera aislada el tiempo 
+  empleado por la función "eliminar" en cada iteración del bucle para sustraerlo 
+  del promedio; por ello, se han desechado todos los casos donde el tiempo 
+  resultante era menor de 500 microsegundos.
+
+  Máquina de medición:
+  - SO: Ubuntu 14.04.3 LTS (Trusty Tahr) 64 bits
+  - Procesador: Intel Core i3-3227U x64 @ 1.90 GHz
+  - Memoria RAM: 4 GB
+
+--------------------------------------------------------------------------------
+
+         n   t_ins(n)   t_bus(n)
+      4000       1593       1294
+      8000       3270       2775
+     16000       7257       9628
+     32000      16657      19543
+     64000      42268      35742
+    128000      95044      80309
+    256000     214977     196979
+
+  DISCUSIÓN:
+
+  El tiempo empleado por la función insertar es ligeramente mayor que el de la 
+  función buscar, ya que en el primer caso, además de localizar la posición 
+  adecuada (de la misma manera que la función buscar), es preciso llamar a la 
+  función crearnodo, lo que explica esa pequeña variación, que aumenta según el 
+  número de elementos a insertar (es decir, cuando aumenta n).
+
+--------------------------------------------------------------------------------
+
+ Tiempos en la inserción en el árbol
+
+                           Cota subestimada   Cota ajustada Cota sobrestimada
+         n            t(n)          t(n)/n     t(n)/n^1.25      t(n)/n^1.5
+      4000        1593.000        0.398250        0.050077        0.006297
+      8000        3270.000        0.408750        0.043220        0.004570
+     16000        7257.000        0.453562        0.040328        0.003586
+     32000       16657.000        0.520531        0.038919        0.002910
+     64000       42268.000        0.660438        0.041523        0.002611
+    128000       95044.000        0.742531        0.039257        0.002075
+    256000      214977.000        0.839754        0.037333        0.001660
+                                              C = 0.03
+
+  DISCUSIÓN:
+
+  La complejidad de esta función se aproxima a O(n^1.25); la diferencia con la 
+  complejidad teórica se puede atribuir a que los árboles resultantes están 
+  desbalanceados al estar trabajando con casos medios. Además, los tiempos no 
+  tienen por qué cumplir una progresión proporcional debido a que se están 
+  usando vectores con diferentes valores en cada medición.
+
+--------------------------------------------------------------------------------
+
+ Tiempos en la búsqueda en el árbol
+
+                           Cota subestimada   Cota ajustada Cota sobrestimada
+         n            t(n)          t(n)/n     t(n)/n^1.25      t(n)/n^1.5
+      4000        1294.000        0.323500        0.040678        0.005115
+      8000        2775.000        0.346875        0.036678        0.003878
+     16000        9628.000        0.601750        0.053504        0.004757
+     32000       19543.000        0.610719        0.045662        0.003414
+     64000       35742.000        0.558469        0.035112        0.002208
+    128000       80309.000        0.627414        0.033170        0.001754
+    256000      196979.000        0.769449        0.034207        0.001521
+                                              C = 0.03
+
+  DISCUSIÓN:
+
+  La complejidad de esta función se aproxima a O(n^1.25); la diferencia con la 
+  complejidad teórica se puede atribuir a que los árboles resultantes están 
+  desbalanceados al estar trabajando con casos medios. Además, los tiempos no 
+  tienen por qué cumplir una progresión proporcional debido a que se están 
+  usando vectores con diferentes valores en cada medición.
+
+--------------------------------------------------------------------------------
+
+ CONCLUSIÓN:
+
+  En las mediciones de tiempo no se han detectado valores anómalos. No obstante, 
+  hemos encontrado dificultades al analizar los tiempos, ya que las mediciones 
+  variaban de una ejecución a otra, debido a que se está trabajando con vectores 
+  con valores pseudoaleatorios, que varían en cada caso y generan árboles 
+  binarios de búsqueda más o menos desbalanceados, distintos en cada iteración 
+  del bucle.
+
