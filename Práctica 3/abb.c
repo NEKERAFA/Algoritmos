@@ -53,17 +53,11 @@ int esarbolvacio(arbol a){
 
 arbol eliminararbol(arbol a){
    if (a != NULL){
-      if (a->izq != NULL){
-         eliminararbol(a->izq);
-      }
-      if (a->der != NULL){
-         eliminararbol(a->der);
-      }
-
+      a->izq = eliminararbol(a->izq);
+      a->der = eliminararbol(a->der);
       free(a);
-      a = NULL;
    }
-   return a;
+   return NULL;
 }
 
 void visualizar(arbol a){
