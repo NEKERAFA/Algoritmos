@@ -1,5 +1,5 @@
 /*
- * Práctica 3 -
+ * Práctica 4 -
  *
  * Autores
  *
@@ -13,8 +13,6 @@
 
 #ifndef __UTILIDADES_ALG
 #define __UTILIDADES_ALG
-#include "abb.h"
-
 //Número de ejecuciones para el caso de tiempos menores a 500 microsegundos
 #define K 1000
 

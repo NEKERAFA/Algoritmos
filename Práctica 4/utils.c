@@ -17,7 +17,6 @@
 #include <math.h>
 #include <time.h>
 #include "utils.h"
-#include "abb.h"
 
 /** Implementación de las funciones *******************************************/
 
@@ -63,7 +62,7 @@ void mostrar_tiempo(int n, double t, double subestimada, double ajustada,
 
 void medir_tiempos(double tiempos[8][3]) {
     double t_inicio, t_fin, t1, t2;
-   int n, i, j, k; 
+   int n, i, j, k;
    int v[512000];
    n = 500; j = 1; i = 1;
    arbol a = creararbol();
@@ -71,23 +70,23 @@ void medir_tiempos(double tiempos[8][3]) {
       // Inicializamos el vector
       aleatorio(v, n);
       // Obtenemos los tiempos de insercion
-      t_inicio = microsegundos(); 
+      t_inicio = microsegundos();
       for(k = 0; k<n; k++) a = insertar(v[k], a);
       t_fin = microsegundos();
 
       t1 = t_fin - t_inicio;
       // Si el tiempo es pequeño se continua al siguiente ciclo
       if (t1 < 500) {n*=2; a = eliminararbol(a); continue;}
-      
+
       // Obtenemos los tiempos de busqueda
-      t_inicio = microsegundos(); 
+      t_inicio = microsegundos();
       for(k = 0; k<n; k++) buscar(v[k], a);
       t_fin = microsegundos();
-      
+
       t2 = t_fin - t_inicio;
       // Si el tiempo es pequeño se continua al siguiente ciclo
       if (t2 < 500)  {n*=2; a = eliminararbol(a); continue;}
-      
+
       // Se insertan los tiempos en la tabla
       printf("%10i %10i %10i\n", n, (int) t1, (int) t2);
       tiempos[j][0] = n; tiempos[j][1] = t1; tiempos[j][2] = t2;
