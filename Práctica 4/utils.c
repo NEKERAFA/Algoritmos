@@ -66,17 +66,16 @@ double divisor(int seleccion, int n, float power){
 }
 
 // Función que muestra el string de la función
-char * division(int seleccion, float power) {
-   static char result[20];
+void division(int seleccion, float power) {
    switch(seleccion){
-      case CONST  : sprintf(result, "t(n)");               break;
-      case LOGN   : sprintf(result, "t(n)/log(n)");        break;
-      case LINEAL : sprintf(result, "t(n)/n");             break;
-      case NLOGN  : sprintf(result, "t(n)/n*log(n)");      break;
-      case NEXP   : sprintf(result, "t(n)/n^%.2f", power); break;
-      case N2LOGN : sprintf(result, "t(n)/n^2*log(n)");    break;
+      case CONST  : printf("%15s ", "t(n)");                break;
+      case LOGN   : printf("%15s ", "t(n)/log(n)");         break;
+      case LINEAL : printf("%15s ", "t(n)/n");              break;
+      case NLOGN  : printf("%15s ", "t(n)/n*log(n)");       break;
+      case NEXP   : printf("%11s%3.2f ", "t(n)/n^", power); break;
+      case N2LOGN : printf("%15s ", "t(n)/n^2*log(n)");     break;
    }
-   return result;
+   
 }
 
 // Función que calcula el tiempo de un algoritmo mediante el promedio de K 
@@ -147,16 +146,18 @@ void medir_tiempos(void (*ordenar)(int v[],int n),
 
 // Muestra la cabecera al ordenar
 void mostrar_cabecera(int selector[], float power[]) {
-   printf("%31s %15s %15s %15s\n", "", "Cota subestimada", "Cota ajustada",
+   printf("%31s%15s %15s %15s\n", "", "Cota subestimada", "Cota ajustada",
           "Cota sobrestimada");
-   printf("%15s %15s %15s %15s %15s\n", "n", "t(n)",
-          division(selector[0], power[0]), division(selector[1], power[1]),
-          division(selector[2], power[2]));
+   printf("%15s %15s ", "n", "t(n)");
+   division(selector[0], power[0]);
+   division(selector[1], power[1]);
+   division(selector[2], power[2]);
+   printf("\n");
 }
 
+// Mide los tiempos de monticulo
 void medicion_monticulos(){
-   int selector[3];
-   float power[3];
+   int selector[3]; float power[3];
 
    printf("Ordenación por montículo con vector ordenado ascendentemente \n \n");
    //Cota subestimada  |  Cota ajustada        | Cota sobreestimada

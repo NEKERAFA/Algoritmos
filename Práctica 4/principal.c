@@ -13,6 +13,7 @@
 
 #include <stdio.h>
 #include "utils.h"
+#include "monticulo.h"
 
 int main(){
    inicializar_semilla();
