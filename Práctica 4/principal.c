@@ -1,5 +1,5 @@
 /*
- * Práctica 3 -
+ * Práctica 4 -
  *
  * Autores
  *
@@ -7,7 +7,7 @@
  * -Iván Anta Porto
  * -David Méndez Álvarez
  *
- * Fecha: 11/11/2015
+ * Fecha: 26/11/2015
  *
 */
 
@@ -16,15 +16,13 @@
 #include "utils.h"
 
 int main(){
-   int i;
-
    inicializar_semilla();
 
    printf(" Se testean las diferentes funciones\n");
    testear();
 
    printf("\n\n Se miden diferentes tiempos de funciones\n\n");
-   for (i = 0; i < 3; i++) tiempos();
+   tiempos();
 
    return 0;
 }
