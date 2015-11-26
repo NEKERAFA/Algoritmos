@@ -61,7 +61,7 @@ void mostrar_tiempo(int n, double t, double subestimada, double ajustada,
 }
 
 void medir_tiempos(double tiempos[8][3]) {
-    double t_inicio, t_fin, t1, t2;
+/*    double t_inicio, t_fin, t1, t2;
    int n, i, j, k;
    int v[512000];
    n = 500; j = 1; i = 1;
@@ -94,12 +94,12 @@ void medir_tiempos(double tiempos[8][3]) {
       ++j; n*=2; a = eliminararbol(a); i++;
    }
    tiempos[0][0] = i;;
-   //printf("%d",i);
+   //printf("%d",i);*/
 }
 
 // Muestra las mediciones de tiempos de insercion en el arbol
 void medicion_insercion( double v[12][3] ) {
-   int selector[3];
+/*   int selector[3];
    float power[3];
    int i;
 
@@ -117,11 +117,11 @@ void medicion_insercion( double v[12][3] ) {
          divisor(selector[0], (int) v[i][0], power[0]),
          divisor(selector[1], (int) v[i][0], power[1]),
          divisor(selector[2], (int) v[i][0], power[2]));
-   }
+   }*/
 }
 
 void medicion_busqueda( double v[12][3] ) {
-   int selector[3];
+/*   int selector[3];
    float power[3];
    int i;
 
@@ -139,5 +139,5 @@ void medicion_busqueda( double v[12][3] ) {
          divisor(selector[0], (int) v[i][0], power[0]),
          divisor(selector[1], (int) v[i][0], power[1]),
          divisor(selector[2], (int) v[i][0], power[2]));
-   }
+   }*/
 }

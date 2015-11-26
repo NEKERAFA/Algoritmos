@@ -12,19 +12,19 @@
 */
 
 #include <stdio.h>
-#include "abb.h"
+#include "monticulo.h"
 #include "utils.h"
 
 int main(){
-   int i;
+  // int i;
 
    inicializar_semilla();
 
    printf(" Se testean las diferentes funciones\n");
    testear();
 
-   printf("\n\n Se miden diferentes tiempos de funciones\n\n");
-   for (i = 0; i < 3; i++) tiempos();
+   //printf("\n\n Se miden diferentes tiempos de funciones\n\n");
+   //for (i = 0; i < 3; i++) tiempos();
 
    return 0;
 }

@@ -1,4 +1,94 @@
-testinicializarmonticulo(){
+#include <stdio.h>
+#include <stdlib.h>
+#include "monticulo.h"
+
+// Inicializa un monticulo
+void inicializar_monticulo(monticulo * m) {
+   m->ultimo = -1;
+}
+
+// Intercambia dos posiciones en el montículo
+// Precondición: i y j son posiciones válidas
+void swap(monticulo * m, int i, int j) {
+   int aux = m->vector[i];
+   m->vector[i] = m->vector[j];
+   m->vector[j] = aux;
+}
+
+// Flota una posición
+void flotar(monticulo * m, int i) {
+   while((i>0) && (m->vector[(i-1)/2] > m->vector[i])) {
+      swap(m, (i-1)/2, i);
+      i = (i-1)/2;
+   }
+}
+
+// Insertar elemento en el montículo
+void insertar(monticulo * m, int e){
+   if (m->ultimo == TAM) {
+      printf("ERROR: Heap overflow"); exit(EXIT_FAILURE);
+   } else {
+      m->ultimo = m->ultimo+1;
+      m->vector[m->ultimo] = e;
+      flotar(m, m->ultimo);
+   }
+}
+
+void hundir(monticulo * m, int i) {
+   int hi, hd;
+   int j;
+
+   do {
+      hi = 2 * i + 1;
+      hd = 2 * i + 2;
+      j = i;
+
+      if ((hd <= m->ultimo) && (m->vector[hd] < m->vector[i]))
+         i = hd;
+
+      if ((hi <= m->ultimo) && (m->vector[hi] < m->vector[i]))
+         i = hi;
+
+      swap(m, i, j);
+
+   } while (j != i);
+}
+
+int eliminar_menor(monticulo * m) {
+   int x;
+
+   if (m->ultimo == -1) {
+      printf("Empty heap");
+      exit(1);
+   }
+   else {
+      x = m->vector[0];
+      m->vector[0] = m->vector[m->ultimo];
+      m->ultimo = m->ultimo - 1;
+
+      if (m->ultimo > -1) {
+         hundir(m, 0);
+      }
+
+      return x;
+   }
+}
+
+void crear_monticulo(int v[], int n, monticulo * m) {
+   int i;
+   
+   for (i = 0; i < n; i++) {
+      m->vector[i] = v[i];
+   }
+   
+   m->ultimo = n - 1;
+   
+   for (i = (n+1)/2-1; i >= 0; i--) {
+      hundir(m, i);
+   }
+}
+
+void testinicializarmonticulo(){
    monticulo m;
 
    printf("Test inicializar_monticulo\n");
@@ -11,7 +101,7 @@ testinicializarmonticulo(){
    }
 }
 
-testswap(){
+ void testswap(){
    monticulo m;
    int valido = 1;
 
@@ -41,7 +131,7 @@ testswap(){
 
 }
 
-testflotar(){
+void testflotar(){
    monticulo m;
    int valido = 1;
 
@@ -73,7 +163,7 @@ testflotar(){
    }
 }
 
-testhundir(){
+void testhundir(){
    monticulo m;
    int valido = 1;
 
@@ -88,7 +178,7 @@ testhundir(){
    m.vector[5] = 5;
    m.ultimo = 5;
    
-   hundir(&m,1);
+   hundir(&m,0);
    
    if(m.vector[0] != 1) valido = 0;
    if(m.vector[1] != 3) valido = 0;
@@ -105,7 +195,7 @@ testhundir(){
    }
 }
 
-testinsertar(){
+void testinsertar(){
    monticulo m;
    int valido = 1;
 
@@ -141,11 +231,14 @@ testinsertar(){
       printf("*************TEST NO SUPERADO*************\n");
    }
 }
-testeliminarmenor(){
+
+void testeliminarmenor(){
    monticulo m;
    int valido = 1;
 
    printf("Test eliminar_menor\n");
+
+   inicializar_monticulo(&m);
 
    insertar(&m,5);
    insertar(&m,3);
@@ -168,7 +261,7 @@ testeliminarmenor(){
    if(eliminar_menor(&m)!=7) valido = 0;
    if(eliminar_menor(&m)!=8) valido = 0;
    if(eliminar_menor(&m)!=9) valido = 0;
-   if(m.ultimo != 0) valido = 0;
+   if(m.ultimo != -1) valido = 0;
    
    if(valido){
       printf("Test superado\n");
@@ -176,12 +269,13 @@ testeliminarmenor(){
       printf("*************TEST NO SUPERADO*************\n");
    }
 }
-testcrearmonticulo(){
+
+void testcrearmonticulo(){
    monticulo m;
    int v[10] = {5,3,7,0,6,8,9,2,1,4};
    int valido = 1;
 
-   printf("Test crear_monticulo");
+   printf("Test crear_monticulo\n");
    inicializar_monticulo(&m);
 
    crear_monticulo(v,10,&m);
@@ -205,7 +299,7 @@ testcrearmonticulo(){
    }
 }
 
-testear(){
+void testear(){
    testinicializarmonticulo();
    testswap();
    testflotar();
@@ -214,5 +308,3 @@ testear(){
    testeliminarmenor();
    testcrearmonticulo();
 }
-
-//OJO EN COTAS Y EN MEDICIONES ANOMALAS
