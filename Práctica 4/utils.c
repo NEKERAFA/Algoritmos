@@ -66,15 +66,15 @@ double divisor(int seleccion, int n, float power){
 }
 
 // Función que muestra el string de la función
-char * division(int seleccion, float power){
-   char[20] result;
+char * division(int seleccion, float power) {
+   static char result[20];
    switch(seleccion){
-      case CONST  : sscanf(result, "t(n)");               break;
-      case LOGN   : sscanf(result, "t(n)/log(n)");        break;
-      case LINEAL : sscanf(result, "t(n)/n");             break;
-      case NLOGN  : sscanf(result, "t(n)/n*log(n)");      break;
-      case NEXP   : sscanf(result, "t(n)/n^%.2f", power); break;
-      case N2LOGN : sscanf(result, "t(n)/n^2*log(n)");    break;
+      case CONST  : sprintf(result, "t(n)");               break;
+      case LOGN   : sprintf(result, "t(n)/log(n)");        break;
+      case LINEAL : sprintf(result, "t(n)/n");             break;
+      case NLOGN  : sprintf(result, "t(n)/n*log(n)");      break;
+      case NEXP   : sprintf(result, "t(n)/n^%.2f", power); break;
+      case N2LOGN : sprintf(result, "t(n)/n^2*log(n)");    break;
    }
    return result;
 }
@@ -108,9 +108,11 @@ double tiempo_promedio(int v[], int n,void (*ordenar)(int v[],int n),
 }
 
 // Función que imprime por pantalla la tabla de tiempos
-void mostrar_tiempo(int n, double t, double subestimada, double ajustada,
-   double sobreestimada) {
-   printf("   %7d %15.3f %15.6f %15.6f %15.6f\n", n, t, t/subestimada,
+void mostrar_tiempo(int n, double t, int es_promedio, double subestimada,
+                    double ajustada, double sobreestimada) {
+   if (es_promedio) printf("(*)");
+   else printf("   ");
+   printf("%12d %15.3f %15.6f %15.6f %15.6f\n", n, t, t/subestimada,
           t/ajustada, t/sobreestimada);
 }
 
@@ -118,7 +120,7 @@ void mostrar_tiempo(int n, double t, double subestimada, double ajustada,
 void medir_tiempos(void (*ordenar)(int v[],int n),
      void (*inicializar)(int v[],int n),int selector[],float power[]){
    double t_inicio, t_fin, t_total;
-   int n; i; promedio; v[32000]
+   int n, i, promedio, v[32000];
    n = 500; promedio = 0;
    
    for (i = 0; i<7; ++i) {
@@ -133,8 +135,8 @@ void medir_tiempos(void (*ordenar)(int v[],int n),
          t_total = tiempo_promedio(v, n,ordenar, inicializar);
       }
       // Se muestran los tiempos
-      mostrar_tiempo(n, t_total, promedio,divisor(selector[0],n,power[0]),
-            divisor(selector[1],n,power[1]),divisor(selector[2],n,power[2]));
+      mostrar_tiempo(n, t_total, promedio, divisor(selector[0], n, power[0]),
+            divisor(selector[1], n, power[1]), divisor(selector[2], n, power[2]));
       // Se resetea la variable de promedios
       promedio = 0;
       // Se duplica el tamaño del vector
@@ -149,7 +151,7 @@ void mostrar_cabecera(int selector[], float power[]) {
           "Cota sobrestimada");
    printf("%15s %15s %15s %15s %15s\n", "n", "t(n)",
           division(selector[0], power[0]), division(selector[1], power[1]),
-          division(selector[3], power[3]));
+          division(selector[2], power[2]));
 }
 
 void medicion_monticulos(){
@@ -179,6 +181,6 @@ void medicion_monticulos(){
 }
 
 void tiempos() {
-   int i
+   int i;
    for (i = 0; i < 3; i++) medicion_monticulos();
 }
