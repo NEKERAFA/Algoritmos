@@ -88,6 +88,17 @@ void crear_monticulo(int v[], int n, monticulo * m) {
    }
 }
 
+void ord_monticulo(int v[], int n) {
+   monticulo m;
+   int i;
+   
+   inicializar_monticulo(&m);
+   crear_monticulo(v, n, &m);
+   for (i = 0; i < n; i++) {
+      v[i] = eliminar_menor(&m);
+   }
+}
+
 void testinicializarmonticulo(){
    monticulo m;
 

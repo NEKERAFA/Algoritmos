@@ -11,6 +11,7 @@ void inicializar_monticulo(monticulo * m);
 void crear_monticulo(int [], int, monticulo *);
 void insertar(monticulo * m, int e);
 int eliminar_menor(monticulo *);
+void ord_monticulo(int v[], int n);
 void testear();
 
 #endif
