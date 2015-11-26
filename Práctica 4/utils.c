@@ -155,33 +155,68 @@ void mostrar_cabecera(int selector[], float power[]) {
    printf("\n");
 }
 
-// Mide los tiempos de monticulo
-void medicion_monticulos(){
+// Inserta elementos en un monticulo
+void insertar_vmonticulo(int v[], int n) {
+   monticulo m; int i;
+   inicializar_monticulo(&m);
+   for (i = 0; i < n; i++) insertar(&m, v[i]);
+}
+
+void crear_vmonticulo(int v[], int n) {
+   monticulo m;
+   crear_monticulo(v, n, &m);
+}
+
+// Mide los tiempos de insertar en un monticulo
+void medicion_insertar() {
    int selector[3]; float power[3];
 
-   printf("Ordenación por montículo con vector ordenado ascendentemente \n \n");
+   printf("Insertar n elementos en un monticulo \n\n");
+   //Cota subestimada  |  Cota ajustada        | Cota sobreestimada
+   selector[0]=NEXP;      selector[1]=NLOGN;    selector[2]=NEXP;
+   power[0]=1.2;         power[1]=0;           power[2]=1.4;
+   mostrar_cabecera(selector, power);
+   medir_tiempos(&insertar_vmonticulo, &aleatorio, selector, power);
+
+   printf("Crear monticulo de n elementos\n\n");
    //Cota subestimada  |  Cota ajustada        | Cota sobreestimada
    selector[0]=NEXP;      selector[1]=LINEAL;    selector[2]=NEXP;
    power[0]=0.8;          power[1]=0;            power[2]=1.2;
+   mostrar_cabecera(selector, power);
+   medir_tiempos(&crear_vmonticulo, &aleatorio, selector, power);
+}
+
+
+// Mide los tiempos de monticulo
+void medicion_ord_monticulos(){
+   int selector[3]; float power[3];
+
+   printf("Ordenación por montículo con vector ordenado ascendentemente \n\n");
+   //Cota subestimada  |  Cota ajustada        | Cota sobreestimada
+   selector[0]=NEXP;      selector[1]=NLOGN;    selector[2]=NEXP;
+   power[0]=1.2;         power[1]=0;           power[2]=1.4;
    mostrar_cabecera(selector, power);
    medir_tiempos(&ord_monticulo, &ascendente, selector, power);
 
    printf("Ordenación por montículo con vector ordenado descendentemente \n\n");
    //Cota subestimada  |  Cota ajustada        | Cota sobreestimada
-   selector[0]=NEXP;      selector[1]=LINEAL;    selector[2]=NEXP;
-   power[0]=0.8;          power[1]=0;            power[2]=1.2;
+   selector[0]=NEXP;      selector[1]=NLOGN;    selector[2]=NEXP;
+   power[0]=1.2;         power[1]=0;           power[2]=1.4;
    mostrar_cabecera(selector, power);
    medir_tiempos(&ord_monticulo, &descendente, selector, power);
 
-   printf("Ordenación por montículo con el vector desordenado \n \n");
+   printf("Ordenación por montículo con el vector desordenado \n\n");
    //Cota subestimada  |  Cota ajustada        | Cota sobreestimada
-   selector[0]=NEXP;      selector[1]=LINEAL;    selector[2]=NEXP;
-   power[0]=0.8;          power[1]=0;            power[2]=1.2;
+   selector[0]=NEXP;      selector[1]=NLOGN;    selector[2]=NEXP;
+   power[0]=1.2;         power[1]=0;           power[2]=1.4;
    mostrar_cabecera(selector, power);
    medir_tiempos(&ord_monticulo, &aleatorio, selector, power);
 }
 
 void tiempos() {
    int i;
-   for (i = 0; i < 3; i++) medicion_monticulos();
+   printf("==== CREACIÓN DE MONTICULOS ====\n");
+   for (i = 0; i < 3; i++) medicion_insertar();
+   printf("==== ORDENAMIENTO POR MONTICULOS ====\n");
+   for (i = 0; i < 3; i++) medicion_ord_monticulos();
 }
