@@ -25,7 +25,7 @@ void flotar(monticulo * m, int i) {
 
 // Insertar elemento en el montículo
 void insertar(monticulo * m, int e){
-   if (m->ultimo == TAM) {
+   if (m->ultimo == TAM-1) {
       printf("ERROR: Heap overflow");
       exit(EXIT_FAILURE);
    } else {
