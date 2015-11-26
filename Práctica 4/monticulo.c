@@ -88,6 +88,17 @@ void crear_monticulo(int v[], int n, monticulo * m) {
    }
 }
 
+int esta_ordenado(int v[],int n){
+   int i;
+
+   for (i=0;i<(n-1);i++){ //Se recorre el vector
+      if(v[i]>v[(i+1)]){ //Si el siguiente elemento es menor que el actual
+         return 0; //El vector no está ordenado
+      }
+   }
+   return 1;//Si no, el vector está ordenado
+}
+
 void ord_monticulo(int v[], int n) {
    monticulo m;
    int i;
@@ -106,7 +117,7 @@ void testinicializarmonticulo(){
    inicializar_monticulo(&m);
 
    if(m.ultimo == -1){
-      printf("Test superado\n");
+      printf("+++Test superado\n");
    } else {
       printf("*************TEST NO SUPERADO*************\n");
    }
@@ -135,7 +146,7 @@ void testinicializarmonticulo(){
    if(m.ultimo    != 3) valido = 0;
    
    if(valido){
-      printf("Test superado\n");
+      printf("+++Test superado\n");
    } else {
       printf("*************TEST NO SUPERADO*************\n");
    }
@@ -168,7 +179,7 @@ void testflotar(){
    if(m.ultimo    != 5) valido = 0;
    
    if(valido){
-      printf("Test superado\n");
+      printf("+++Test superado\n");
    } else {
       printf("*************TEST NO SUPERADO*************\n");
    }
@@ -200,7 +211,7 @@ void testhundir(){
    if(m.ultimo    != 5) valido = 0;
    
    if(valido){
-      printf("Test superado\n");
+      printf("+++Test superado\n");
    } else {
       printf("*************TEST NO SUPERADO*************\n");
    }
@@ -237,7 +248,7 @@ void testinsertar(){
    if(m.ultimo != 9) valido = 0;
 
    if(valido){
-      printf("Test superado\n");
+      printf("+++Test superado\n");
    } else {
       printf("*************TEST NO SUPERADO*************\n");
    }
@@ -275,7 +286,7 @@ void testeliminarmenor(){
    if(m.ultimo != -1) valido = 0;
    
    if(valido){
-      printf("Test superado\n");
+      printf("+++Test superado\n");
    } else {
       printf("*************TEST NO SUPERADO*************\n");
    }
@@ -304,11 +315,26 @@ void testcrearmonticulo(){
    if(m.ultimo != 9) valido = 0;
 
    if(valido){
-      printf("Test superado\n");
+      printf("+++Test superado\n");
    } else {
       printf("*************TEST NO SUPERADO*************\n");
    }
 }
+
+testordenacionmonticulo(){
+   int v[10] = {5,3,7,0,6,8,9,2,1,4};
+
+   printf("Test ordenacion monticulo\n");
+
+   ord_monticulo(v,10);
+
+   if(esta_ordenado(v,10)){
+      printf("+++Test superado\n");
+   } else {
+      printf("*************TEST NO SUPERADO*************\n");
+   }
+}
+
 
 void testear(){
    testinicializarmonticulo();
@@ -318,4 +344,5 @@ void testear(){
    testinsertar();
    testeliminarmenor();
    testcrearmonticulo();
+   testordenacionmonticulo();
 }
