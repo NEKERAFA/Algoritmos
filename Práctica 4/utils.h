@@ -26,12 +26,6 @@
 
 //Definición de cabeceras
 void inicializar_semilla();
-double microsegundos();
-void medir_tiempos(double tiempos[13][3]);
-void mostrar_tiempo(int n, double t, double subestimada, double ajustada,
-   double sobreestimada);
-double divisor(int seleccion, int n, float power);
-void medicion_insercion( double v[12][3] );
-void medicion_busqueda( double v[12][3] );
+void tiempos();
 
 #endif
