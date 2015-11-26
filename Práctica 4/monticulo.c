@@ -321,7 +321,7 @@ void testcrearmonticulo(){
    }
 }
 
-testordenacionmonticulo(){
+void testordenacionmonticulo(){
    int v[10] = {5,3,7,0,6,8,9,2,1,4};
 
    printf("Test ordenacion monticulo\n");
