@@ -123,17 +123,17 @@ testinsertar(){
    insertar(&m,1);
    insertar(&m,4);
 
-   if(m.vector[0]!=0) validacion = 0;
-   if(m.vector[1]!=1) validacion = 0;
-   if(m.vector[2]!=7) validacion = 0;
-   if(m.vector[3]!=2) validacion = 0;
-   if(m.vector[4]!=4) validacion = 0;
-   if(m.vector[5]!=8) validacion = 0;
-   if(m.vector[6]!=9) validacion = 0;
-   if(m.vector[7]!=5) validacion = 0;
-   if(m.vector[8]!=3) validacion = 0;
-   if(m.vector[9]!=6) validacion = 0;
-   if(m.ultimo != 9) validacion = 0;
+   if(m.vector[0]!=0) valido = 0;
+   if(m.vector[1]!=1) valido = 0;
+   if(m.vector[2]!=7) valido = 0;
+   if(m.vector[3]!=2) valido = 0;
+   if(m.vector[4]!=4) valido = 0;
+   if(m.vector[5]!=8) valido = 0;
+   if(m.vector[6]!=9) valido = 0;
+   if(m.vector[7]!=5) valido = 0;
+   if(m.vector[8]!=3) valido = 0;
+   if(m.vector[9]!=6) valido = 0;
+   if(m.ultimo != 9) valido = 0;
 
    if(valido){
       printf("Test superado\n");
@@ -158,17 +158,17 @@ testeliminarmenor(){
    insertar(&m,1);
    insertar(&m,4);
 
-   if(eliminar_menor(&m)!=0) validacion = 0;
-   if(eliminar_menor(&m)!=1) validacion = 0;
-   if(eliminar_menor(&m)!=2) validacion = 0;
-   if(eliminar_menor(&m)!=3) validacion = 0;
-   if(eliminar_menor(&m)!=4) validacion = 0;
-   if(eliminar_menor(&m)!=5) validacion = 0;
-   if(eliminar_menor(&m)!=6) validacion = 0;
-   if(eliminar_menor(&m)!=7) validacion = 0;
-   if(eliminar_menor(&m)!=8) validacion = 0;
-   if(eliminar_menor(&m)!=9) validacion = 0;
-   if(m.ultimo != 0) validacion = 0;
+   if(eliminar_menor(&m)!=0) valido = 0;
+   if(eliminar_menor(&m)!=1) valido = 0;
+   if(eliminar_menor(&m)!=2) valido = 0;
+   if(eliminar_menor(&m)!=3) valido = 0;
+   if(eliminar_menor(&m)!=4) valido = 0;
+   if(eliminar_menor(&m)!=5) valido = 0;
+   if(eliminar_menor(&m)!=6) valido = 0;
+   if(eliminar_menor(&m)!=7) valido = 0;
+   if(eliminar_menor(&m)!=8) valido = 0;
+   if(eliminar_menor(&m)!=9) valido = 0;
+   if(m.ultimo != 0) valido = 0;
    
    if(valido){
       printf("Test superado\n");
@@ -186,17 +186,17 @@ testcrearmonticulo(){
 
    crear_monticulo(v,10,&m);
 
-   if(m.vector[0]!=0) validacion = 0;
-   if(m.vector[1]!=1) validacion = 0;
-   if(m.vector[2]!=7) validacion = 0;
-   if(m.vector[3]!=2) validacion = 0;
-   if(m.vector[4]!=4) validacion = 0;
-   if(m.vector[5]!=8) validacion = 0;
-   if(m.vector[6]!=9) validacion = 0;
-   if(m.vector[7]!=5) validacion = 0;
-   if(m.vector[8]!=3) validacion = 0;
-   if(m.vector[9]!=6) validacion = 0;
-   if(m.ultimo != 9) validacion = 0;
+   if(m.vector[0]!=0) valido = 0;
+   if(m.vector[1]!=1) valido = 0;
+   if(m.vector[2]!=7) valido = 0;
+   if(m.vector[3]!=2) valido = 0;
+   if(m.vector[4]!=4) valido = 0;
+   if(m.vector[5]!=8) valido = 0;
+   if(m.vector[6]!=9) valido = 0;
+   if(m.vector[7]!=5) valido = 0;
+   if(m.vector[8]!=3) valido = 0;
+   if(m.vector[9]!=6) valido = 0;
+   if(m.ultimo != 9) valido = 0;
 
    if(valido){
       printf("Test superado\n");
