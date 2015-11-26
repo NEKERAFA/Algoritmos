@@ -26,7 +26,8 @@ void flotar(monticulo * m, int i) {
 // Insertar elemento en el montículo
 void insertar(monticulo * m, int e){
    if (m->ultimo == TAM) {
-      printf("ERROR: Heap overflow"); exit(EXIT_FAILURE);
+      printf("ERROR: Heap overflow");
+      exit(EXIT_FAILURE);
    } else {
       m->ultimo = m->ultimo+1;
       m->vector[m->ultimo] = e;
@@ -34,13 +35,14 @@ void insertar(monticulo * m, int e){
    }
 }
 
+// Hunde una posición
 void hundir(monticulo * m, int i) {
    int hi, hd;
    int j;
 
    do {
-      hi = 2 * i + 1;
-      hd = 2 * i + 2;
+      hi = 2*i + 1;
+      hd = 2*i + 2;
       j = i;
 
       if ((hd <= m->ultimo) && (m->vector[hd] < m->vector[i]))
@@ -54,12 +56,13 @@ void hundir(monticulo * m, int i) {
    } while (j != i);
 }
 
+// Elimina el menor elemento del montículo y lo devuelve
 int eliminar_menor(monticulo * m) {
    int x;
 
    if (m->ultimo == -1) {
-      printf("Empty heap");
-      exit(1);
+      printf("ERROR: Empty heap");
+      exit(EXIT_FAILURE);
    }
    else {
       x = m->vector[0];
@@ -74,6 +77,7 @@ int eliminar_menor(monticulo * m) {
    }
 }
 
+// Crea un montículo a partir de un vector
 void crear_monticulo(int v[], int n, monticulo * m) {
    int i;
    
@@ -83,11 +87,12 @@ void crear_monticulo(int v[], int n, monticulo * m) {
    
    m->ultimo = n - 1;
    
-   for (i = (n+1)/2-1; i >= 0; i--) {
+   for (i = (n-1)/2; i >= 0; i--) {
       hundir(m, i);
    }
 }
 
+// Comprueba si un vector está ordenado
 int esta_ordenado(int v[],int n){
    int i;
 
@@ -99,6 +104,7 @@ int esta_ordenado(int v[],int n){
    return 1;//Si no, el vector está ordenado
 }
 
+// Ordena un vector aplicando el algoritmo de ordenación por montículos
 void ord_monticulo(int v[], int n) {
    monticulo m;
    int i;
@@ -123,7 +129,7 @@ void testinicializarmonticulo(){
    }
 }
 
- void testswap(){
+void testswap(){
    monticulo m;
    int valido = 1;
 
