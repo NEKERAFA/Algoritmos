@@ -6,6 +6,9 @@ CFLAGS = -g -Wall
 run: principal.out utils.o monticulo.o #Faltan cosas
 	valgrind ./principal.out
 
+clear:
+	rm -f principal.out utils.o monticulo.o
+
 principal.out: utils.o principal.c monticulo.o #Faltan cosas
 	$(CC) $(CFLAGS) utils.o monticulo.o principal.c -o principal.out -lm
 
@@ -14,6 +17,3 @@ utils.o: utils.c utils.h
 
 monticulo.o: monticulo.c monticulo.h
 	$(CC) $(CFLAGS) -c monticulo.c -o monticulo.o
-
-clear:
-	rm -f principal.out utils.o monticulo.o

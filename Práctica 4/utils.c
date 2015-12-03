@@ -173,8 +173,8 @@ void medicion_insertar() {
 
    printf("Insertar n elementos en un monticulo \n\n");
    //Cota subestimada  |  Cota ajustada        | Cota sobreestimada
-   selector[0]=NEXP;      selector[1]=NLOGN;    selector[2]=NEXP;
-   power[0]=1.2;         power[1]=0;           power[2]=1.4;
+   selector[0]=LINEAL;      selector[1]=NLOGN;    selector[2]=NEXP;
+   power[0]=0;         power[1]=0;           power[2]=1.4;
    mostrar_cabecera(selector, power);
    medir_tiempos(&insertar_vmonticulo, &aleatorio, selector, power);
 
@@ -193,22 +193,22 @@ void medicion_ord_monticulos(){
 
    printf("Ordenación por montículo con vector ordenado ascendentemente \n\n");
    //Cota subestimada  |  Cota ajustada        | Cota sobreestimada
-   selector[0]=NEXP;      selector[1]=NLOGN;    selector[2]=NEXP;
-   power[0]=1.2;         power[1]=0;           power[2]=1.4;
+   selector[0]=LINEAL;      selector[1]=NLOGN;    selector[2]=NEXP;
+   power[0]=0;         power[1]=0;           power[2]=1.4;
    mostrar_cabecera(selector, power);
    medir_tiempos(&ord_monticulo, &ascendente, selector, power);
 
    printf("Ordenación por montículo con vector ordenado descendentemente \n\n");
    //Cota subestimada  |  Cota ajustada        | Cota sobreestimada
-   selector[0]=NEXP;      selector[1]=NLOGN;    selector[2]=NEXP;
-   power[0]=1.2;         power[1]=0;           power[2]=1.4;
+   selector[0]=LINEAL;      selector[1]=NLOGN;    selector[2]=NEXP;
+   power[0]=0;         power[1]=0;           power[2]=1.4;
    mostrar_cabecera(selector, power);
    medir_tiempos(&ord_monticulo, &descendente, selector, power);
 
    printf("Ordenación por montículo con el vector desordenado \n\n");
    //Cota subestimada  |  Cota ajustada        | Cota sobreestimada
-   selector[0]=NEXP;      selector[1]=NLOGN;    selector[2]=NEXP;
-   power[0]=1.2;         power[1]=0;           power[2]=1.4;
+   selector[0]=LINEAL;      selector[1]=NLOGN;    selector[2]=NEXP;
+   power[0]=0;         power[1]=0;           power[2]=1.4;
    mostrar_cabecera(selector, power);
    medir_tiempos(&ord_monticulo, &aleatorio, selector, power);
 }
