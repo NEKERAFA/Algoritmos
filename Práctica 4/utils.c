@@ -119,10 +119,10 @@ void mostrar_tiempo(int n, double t, int es_promedio, double subestimada,
 void medir_tiempos(void (*ordenar)(int v[],int n),
      void (*inicializar)(int v[],int n),int selector[],float power[]){
    double t_inicio, t_fin, t_total;
-   int n, i, promedio, v[32000];
+   int n, i, promedio, v[64000];
    n = 500; promedio = 0;
    
-   for (i = 0; i<7; ++i) {
+   for (i = 0; i<8; ++i) {
       // Inicializamos el vector
       inicializar(v, n);
       // Obtenemos los tiempos de ejecución
@@ -168,13 +168,16 @@ void crear_vmonticulo(int v[], int n) {
 }
 
 // Mide los tiempos de insertar en un monticulo
-void medicion_insertar() {
+void medicion_inicializacion_monticulos() {
    int selector[3]; float power[3];
 
    printf("Insertar n elementos en un monticulo \n\n");
    //Cota subestimada  |  Cota ajustada        | Cota sobreestimada
-   selector[0]=LINEAL;      selector[1]=NLOGN;    selector[2]=NEXP;
+ /*  selector[0]=LINEAL;      selector[1]=NLOGN;    selector[2]=NEXP;
    power[0]=0;         power[1]=0;           power[2]=1.4;
+ */
+   selector[0]=NEXP;      selector[1]=LINEAL;    selector[2]=NEXP;
+   power[0]=0.8;          power[1]=0;            power[2]=1.2;  
    mostrar_cabecera(selector, power);
    medir_tiempos(&insertar_vmonticulo, &aleatorio, selector, power);
 
@@ -216,7 +219,7 @@ void medicion_ord_monticulos(){
 void tiempos() {
    int i;
    printf("==== CREACIÓN DE MONTICULOS ====\n");
-   for (i = 0; i < 3; i++) medicion_insertar();
+   for (i = 0; i < 3; i++) medicion_inicializacion_monticulos();
    printf("==== ORDENAMIENTO POR MONTICULOS ====\n");
    for (i = 0; i < 3; i++) medicion_ord_monticulos();
 }
