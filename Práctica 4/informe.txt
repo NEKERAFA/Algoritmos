@@ -1,0 +1,164 @@
+
+  Práctica 4 - Montículos
+  9/12/2015
+
+  Autores:
+  - Rafael Alcalde Azpiazu
+  - Iván Anta Porto
+  - David Méndez Álvarez
+
+--------------------------------------------------------------------------------
+
+ INTRODUCCIÓN:
+
+  El objetivo de esta práctica es estudiar la complejidad computacional del 
+  algoritmo de ordenación por montículos, aplicado a vectores de números 
+  enteros.
+
+  A partir de una representación de montículos de mínimos, se han implementado, 
+  siempre en lenguaje C, las operaciones necesarias para manipular montículos, 
+  a saber: inicializar montículo, crear montículo, insertar elemento en el 
+  montículo (que usa el procedimiento "flotar") y eliminar el menor elemento 
+  del montículo (que se vale del procedimiento "hundir"). Después, se ha 
+  verificado que todas las operaciones funcionaran de manera correcta mediante 
+  una serie de tests.
+  
+  El objetivo de la práctica es doble: por una parte, demostrar empíriciamente 
+  que insertar "n" nodos a un montículo inicialmente vacío se ejecuta en un 
+  tiempo O(n.log n), mientras que la creación de un montículo a partir de un 
+  vector con "n" elementos se ejecuta en tiempo O(n); por otra parte, calcular 
+  empíricamente la complejidad computacional del algoritmo de ordenación sobre 
+  tres tipos diferentes de vectores: ordenados de manera ascendente, ordenados 
+  descendentemente y desordenados.
+  
+  Los tiempos de ejecución se han medido en microsegundos. En el caso de los 
+  tiempos menores de 500 microsegundos, se ha aplicado el habitual método de 
+  medición de tiempos pequeños, consistente en tomar el tiempo medio de 1000 
+  mediciones.
+
+
+  Máquina de medición:
+  - SO: Ubuntu 14.04.3 LTS (Trusty Tahr) 64 bits
+  - Procesador: Intel Core i3-3227U x64 @ 1.90 GHz
+  - Memoria RAM: 4 GB
+
+--------------------------------------------------------------------------------
+
+ CREACIÓN DE MONTÍCULOS: INSERTAR vs. CREAR_MONTICULO
+
+  Insertar n elementos en un monticulo 
+
+                               Cota subestimada   Cota ajustada Cota sobrestimada
+              n            t(n)          t(n)/n   t(n)/n*log(n)     t(n)/n^1.40 
+(*)         500          54.373        0.108746        0.017498        0.009054
+(*)        1000         119.646        0.119646        0.017321        0.007549
+(*)        2000         262.484        0.131242        0.017267        0.006276
+           4000         574.000        0.143500        0.017302        0.005200
+           8000        1246.000        0.155750        0.017330        0.004278
+          16000        2708.000        0.169250        0.017484        0.003523
+          32000        5808.000        0.181500        0.017497        0.002863
+                                                   C = 0.017
+*: Tiempo promedio de 1000 ejecuciones del algoritmo
+
+
+  Crear monticulo de n elementos
+
+                               Cota subestimada   Cota ajustada Cota sobrestimada
+              n            t(n)     t(n)/n^0.80          t(n)/n     t(n)/n^1.20 
+(*)         500          15.628        0.108325        0.031256        0.009019
+(*)        1000          30.306        0.120650        0.030306        0.007613
+(*)        2000          59.956        0.137091        0.029978        0.006555
+(*) (-)    4000         117.541        0.154362        0.029385        0.005594
+(*)        8000         236.223        0.178176        0.029528        0.004893
+(*)       16000         471.003        0.204046        0.029438        0.004247
+          32000         946.000        0.235381        0.029562        0.003713
+                                                   C = 0.029
+*: Tiempo promedio de 1000 ejecuciones del algoritmo
+-: Mediciones anómalas
+
+
+ DISCUSIÓN:
+ 
+  Para la inserción de "n" elementos en un montículo inicialmente vacío, se han 
+  seleccionando los elementos de un vector ordenado descendentemente, ya que de 
+  esta manera se asegura que se llevarán a cabo el mayor número posible de 
+  intercambios en el procedimiento "flotar", y se verá fácilmente que la cota 
+  ajustada es t(n)/n*log(n), y su complejidad, O(n.log n).
+
+  Con la misma inicialización descendente del vector empleado en la función 
+  "crear_monticulo", se observa que su complejidad es lineal: O(n).
+
+--------------------------------------------------------------------------------
+
+ ORDENACIÓN POR MONTÍCULOS:
+
+  Ordenación por montículo con vector ordenado ascendentemente 
+
+                               Cota subestimada   Cota ajustada Cota sobrestimada
+              n            t(n)          t(n)/n   t(n)/n*log(n)     t(n)/n^1.40 
+(*) (-)     500          96.464        0.192928        0.031044        0.016062
+(*) (-)    1000         225.008        0.225008        0.032573        0.014197
+           2000         516.000        0.258000        0.033943        0.012337
+           4000        1113.000        0.278250        0.033548        0.010083
+           8000        2339.000        0.292375        0.032532        0.008030
+          16000        4902.000        0.306375        0.031649        0.006377
+    (-)   32000       10642.000        0.332562        0.032059        0.005246
+                                                   C = 0.032
+*: Tiempo promedio de 1000 ejecuciones del algoritmo
+-: Mediciones anómalas
+
+
+  Ordenación por montículo con vector ordenado descendentemente 
+
+                               Cota subestimada   Cota ajustada Cota sobrestimada
+              n            t(n)          t(n)/n   t(n)/n*log(n)     t(n)/n^1.40 
+(*) (-)     500         110.815        0.221630        0.035663        0.018452
+(*)        1000         250.823        0.250823        0.036310        0.015826
+           2000         547.000        0.273500        0.035983        0.013078
+           4000        1152.000        0.288000        0.034724        0.010437
+           8000        2426.000        0.303250        0.033742        0.008328
+          16000        5046.000        0.315375        0.032579        0.006564
+    (-)   32000       10977.000        0.343031        0.033068        0.005411
+                                                   C = 0.03
+*: Tiempo promedio de 1000 ejecuciones del algoritmo
+-: Mediciones anómalas
+
+
+  Ordenación por montículo con el vector desordenado 
+
+                               Cota subestimada   Cota ajustada Cota sobrestimada
+              n            t(n)          t(n)/n   t(n)/n*log(n)     t(n)/n^1.40 
+(*)         500         124.899        0.249798        0.040195        0.020797
+(*)        1000         274.396        0.274396        0.039723        0.017313
+           2000         601.000        0.300500        0.039535        0.014369
+           4000        1306.000        0.326500        0.039366        0.011832
+    (-)    8000        2805.000        0.350625        0.039014        0.009630
+          16000        6091.000        0.380688        0.039326        0.007924
+    (-)   32000       13191.000        0.412219        0.039738        0.006502
+                                                   C = 0.039
+*: Tiempo promedio de 1000 ejecuciones del algoritmo
+-: Mediciones anómalas
+
+
+ DISCUSIÓN:
+
+  Se observa que la complejidad no varía entre los tres casos (vector ordenado 
+  de manera ascendente, vector ordenado descendentemente y vector desordeando): 
+  O(n.log n).
+
+  Se han detectado ligeras anomalías en las mediciones, que se hacen patentes 
+  al analizar las tendencias de las diferentes cotas.
+
+--------------------------------------------------------------------------------
+
+ CONCLUSIÓN:
+
+  Queda demostrado empíricamente que la complejidad de añadir "n" nodos a un 
+  montículo inicialmente vacío, mediante la función "insertar", se ejecutará 
+  en un tiempo O(n.log n), frente al tiempo O(n) que se tardará en crear un 
+  montículo a partir de un vector cualquiera con "n" elementos.
+
+  Queda demostrado empíricamente que la complejidad de la ordenación por 
+  montículos es independiente del tipo de vector de entrada que se quiera 
+  ordenar: siempre es O(n.log n).
+
