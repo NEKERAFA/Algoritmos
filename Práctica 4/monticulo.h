@@ -1,3 +1,16 @@
+/*
+ * Práctica 4 - Montículos
+ *
+ * Autores
+ *
+ * -Rafael Alcalde Azpiazu
+ * -Iván Anta Porto
+ * -David Méndez Álvarez
+ *
+ * Fecha: 09/12/2015
+ *
+*/
+
 #ifndef __MONTICULOS_ALG__
 #define __MONTICULOS_ALG__
 

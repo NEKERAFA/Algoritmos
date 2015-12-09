@@ -1,3 +1,16 @@
+/*
+ * Práctica 4 - Montículos
+ *
+ * Autores
+ *
+ * -Rafael Alcalde Azpiazu
+ * -Iván Anta Porto
+ * -David Méndez Álvarez
+ *
+ * Fecha: 09/12/2015
+ *
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "monticulo.h"

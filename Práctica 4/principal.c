@@ -1,5 +1,5 @@
 /*
- * Práctica 4 -
+ * Práctica 4 - Montículos
  *
  * Autores
  *
@@ -7,7 +7,7 @@
  * -Iván Anta Porto
  * -David Méndez Álvarez
  *
- * Fecha: 26/11/2015
+ * Fecha: 09/12/2015
  *
 */
 
