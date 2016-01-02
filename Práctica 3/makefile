@@ -6,3 +6,6 @@ utils.o: utils.c utils.h
 
 abb.o: abb.h abb.c
 	gcc -g -c abb.c -o abb.o 
+
+clean: 
+	rm *.o main.out

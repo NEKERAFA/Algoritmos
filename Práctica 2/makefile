@@ -7,3 +7,6 @@ ordenacion.o: ordenacion.h ordenacion.c
 
 utils.o: utils.c utils.h
 	gcc -g -c utils.c -o utils.o -lm
+
+clean: 
+	rm *.o main.out

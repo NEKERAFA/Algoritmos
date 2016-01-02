@@ -343,12 +343,13 @@ void testeliminararbol(){
    a = insertar(2,a);
    a = insertar(1,a);
    a = insertar(3,a);
-
+   printf("Antes de eliminar:\n");
    visualizar(a);
    printf("\n");
 
    a = eliminararbol(a);
 
+   printf("Después de eliminar: \n");
    visualizar(a);
    printf("\n");
 }
